@@ -172,7 +172,467 @@ function getFileUrl(filename) {
 }
 
 function filterCards() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
+  const search = document.getElementById("searchInput").value.toLowerCase();<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>半導體產業名片管理系統</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { text-align: center; color: #1a365d; margin-bottom: 20px; }
+    .nav-folders { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .nav-title { font-weight: bold; margin-bottom: 10px; color: #2b6cb0; }
+    .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+    .btn { display: inline-block; padding: 8px 12px; background: #3182ce; color: white; text-decoration: none; border-radius: 5px; font-size: 14px; text-align: center; transition: background 0.2s; }
+    .btn:hover { background: #2b6cb0; }
+    .btn-sub { background: #4a5568; font-size: 12px; padding: 5px 8px; }
+    .btn-sub:hover { background: #2d3748; }
+    .btn-link { background: #e2e8f0; color: #2d3748; padding: 4px 8px; font-size: 12px; border-radius: 4px; margin-right: 5px; }
+    .btn-link:hover { background: #cbd5e0; }
+    .filter-section { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; }
+    .filter-group { flex: 1; min-width: 180px; }
+    .filter-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+    .filter-group select, .filter-group input { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; }
+    .industry-group { margin-bottom: 30px; }
+    .industry-title { font-size: 20px; color: #2c5282; border-bottom: 2px solid #3182ce; padding-bottom: 5px; margin-bottom: 15px; font-weight: bold; }
+    .company-group { margin-bottom: 20px; padding-left: 10px; }
+    .company-title { font-size: 16px; color: #4a5568; margin-bottom: 10px; font-weight: bold; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+    .card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); padding: 15px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .card-name { font-size: 18px; font-weight: bold; color: #1a202c; }
+    .badge { padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+    .badge-high { background: #feebc8; color: #9b2c2c; }
+    .badge-mid { background: #e2e8f0; color: #2d3748; }
+    .badge-low { background: #e6fffa; color: #234e52; }
+    .card-info { font-size: 13px; color: #4a5568; margin-bottom: 12px; line-height: 1.5; }
+    .card-info p { margin: 3px 0; }
+    .card-links { display: flex; gap: 8px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎴 半導體產業名片管理系統</h1>
+
+    <div class="nav-folders">
+      <div class="nav-title">📁 OneDrive 產業資料夾快捷連結</div>
+      <div class="folder-grid" id="folderNav"></div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-group">
+        <label for="searchInput">🔍 關鍵字搜尋</label>
+        <input type="text" id="searchInput" placeholder="搜尋姓名、公司、職稱..." oninput="filterCards()">
+      </div>
+      <div class="filter-group">
+        <label for="industrySelect">🏭 產業類別</label>
+        <select id="industrySelect" onchange="filterCards()">
+          <option value="">全部產業</option>
+          <option value="01_IC設計業">01_IC設計業</option>
+          <option value="02_半導體封裝測試業_OSAT">02_半導體封裝測試業_OSAT</option>
+          <option value="03_半導體測試介面與探針卡業">03_半導體測試介面與探針卡業</option>
+          <option value="04_半導體與電子檢測及製程設備業">04_半導體與電子檢測及製程設備業</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="companySelect">🏢 公司名稱</label>
+        <select id="companySelect" onchange="filterCards()">
+          <option value="">全部公司</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="levelSelect">👔 職階篩選</label>
+        <select id="levelSelect" onchange="filterCards()">
+          <option value="">全部職階</option>
+          <option value="高階">高階</option>
+          <option value="中階">中階</option>
+          <option value="基層">基層</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="cardsDisplay"></div>
+  </div>
+
+  <script>
+    const odDomain = "onedrive" + "." + "live" + "." + "com";
+    const baseOneDriveUrl = "https://" + odDomain + "/?id=";
+    const rootPath = "/personal/86b2db5325c72033/Documents/名片集";
+    const suffix = "&listurl=%2Fpersonal%2F86b2db5325c72033%2FDocuments&viewid=32393b06%2D55df%2D45ef%2D9b75%2D35d0de847e49&ithint=folder&migratedtospo=true&ga=1";
+
+    function getFileUrl(filename) {
+      return baseOneDriveUrl + encodeURIComponent(rootPath + "/" + filename) + suffix;
+    }
+
+    function initFolderNav() {
+      const folderNav = document.getElementById("folderNav");
+      folderNav.innerHTML = `
+        <a class="btn" href="${baseOneDriveUrl}${encodeURIComponent(rootPath)}${suffix}" target="_blank">📂 完整名片集根目錄</a>
+        <a class="btn btn-sub" href="${baseOneDriveUrl}${encodeURIComponent(rootPath + '/01_IC設計業')}${suffix}" target="_blank">01_IC設計業</a>
+        <a class="btn btn-sub" href="${baseOneDriveUrl}${encodeURIComponent(rootPath + '/02_半導體封裝測試業_OSAT')}${suffix}" target="_blank">02_半導體封裝測試業_OSAT</a>
+        <a class="btn btn-sub" href="${baseOneDriveUrl}${encodeURIComponent(rootPath + '/03_半導體測試介面與探針卡業')}${suffix}" target="_blank">03_半導體測試介面與探針卡業</a>
+        <a class="btn btn-sub" href="${baseOneDriveUrl}${encodeURIComponent(rootPath + '/04_半導體與電子檢測及製程設備業')}${suffix}" target="_blank">04_半導體與電子檢測及製程設備業</a>
+      `;
+    }
+
+    const contacts = [
+      {
+        name: "廖益源 (Anderson Liao)",
+        title: "財務處 財務協理 (Assistant General Manager, FIN)",
+        level: "高階",
+        industry: "01_IC設計業",
+        company: "達發科技_6526",
+        phone: "+886-3-612-8800 ext.78036",
+        mobile: "",
+        fax: "",
+        email: "anderson.liao@airoha.com",
+        address: "302 新竹縣竹北市台元二街12號14樓",
+        front: "01_IC設計業/達發科技_6526/20261102_081959938_iOS.heic",
+        back: "01_IC設計業/達發科技_6526/20261102_082006539_iOS.heic"
+      },
+      {
+        name: "楊雯葳 (Carina Yang)",
+        title: "投資人關係 經理 (Manager, Investor Relations)",
+        level: "中階",
+        industry: "01_IC設計業",
+        company: "達發科技_6526",
+        phone: "+886-3-612-8800 ext.78037",
+        mobile: "",
+        fax: "",
+        email: "carina.yang@airoha.com",
+        address: "302 新竹縣竹北市台元二街12號14樓",
+        front: "01_IC設計業/達發科技_6526/20261102_081938827_iOS.heic",
+        back: "01_IC設計業/達發科技_6526/20261102_081949868_iOS.heic"
+      },
+      {
+        name: "黃建諭 (Vic Huang)",
+        title: "產品工程部 經理 (Manager, Product Engineering Dept.)",
+        level: "中階",
+        industry: "01_IC設計業",
+        company: "博發電子_Bravotek",
+        phone: "+886-3-622-1268 ext.230",
+        mobile: "0936-328-101",
+        fax: "",
+        email: "vic.huang@bravotekcorp.com",
+        address: "302082 新竹縣竹北市台元一街6號10樓",
+        front: "01_IC設計業/博發電子_Bravotek/20261102_082355995_iOS.heic",
+        back: "01_IC設計業/博發電子_Bravotek/20261102_082404505_iOS.heic"
+      },
+      {
+        name: "林義森 (Eason Lin)",
+        title: "產品工程部 資深工程師 (Senior Engineer, Product Engineering Dept.)",
+        level: "基層",
+        industry: "01_IC設計業",
+        company: "博發電子_Bravotek",
+        phone: "+886-3-622-1268 ext.269",
+        mobile: "0912-232-733",
+        fax: "",
+        email: "eason.lin@bravotekcorp.com",
+        address: "302082 新竹縣竹北市台元一街6號10樓",
+        front: "01_IC設計業/博發電子_Bravotek/20261102_082412473_iOS.heic",
+        back: "01_IC設計業/博發電子_Bravotek/20261102_082421680_iOS.heic"
+      },
+      {
+        name: "黃興陽 (Sidney Huang)",
+        title: "董事長暨執行長 (Chairman & CEO)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "矽格_6257",
+        phone: "03-595-9213",
+        mobile: "",
+        fax: "03-594-4495",
+        email: "",
+        address: "新竹縣竹東鎮北興路一段436號",
+        front: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082234340_iOS.heic",
+        back: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082239713_iOS.heic"
+      },
+      {
+        name: "葉燦鍊 (Charles Yeh)",
+        title: "副董事長暨總經理 (Vice Chairman & President)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "矽格_6257",
+        phone: "03-595-9213",
+        mobile: "",
+        fax: "03-594-4495",
+        email: "cyeh@sigurd.com.tw",
+        address: "新竹縣竹東鎮北興路一段436號",
+        front: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082216920_iOS.heic",
+        back: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082226169_iOS.heic"
+      },
+      {
+        name: "郭旭東 (Wilson Kuo)",
+        title: "共同營運長 全球銷售及行銷總經理 (CO-COO, GM, Global Sales & Marketing)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "矽格_6257",
+        phone: "03-597-1698",
+        mobile: "",
+        fax: "03-597-4627",
+        email: "",
+        address: "新竹縣湖口鄉新竹工業區四維路一號",
+        front: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082157673_iOS.heic",
+        back: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082204560_iOS.heic"
+      },
+      {
+        name: "陳祺昌 (Peter Chen)",
+        title: "發言人 (Spokesperson)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "矽格_6257",
+        phone: "03-595-9213 ext.1514",
+        mobile: "0955-371-190",
+        fax: "",
+        email: "peter_chen@sigurd.com.tw",
+        address: "新竹縣竹東鎮北興路一段436號",
+        front: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082141865_iOS.heic",
+        back: "02_半導體封裝測試業_OSAT/矽格_6257/20261102_082147427_iOS.heic"
+      },
+      {
+        name: "張垂欽 (Aaron Chang)",
+        title: "企劃處 處長 (Director, Planning Div.)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "京元電子_2449",
+        phone: "+886-3-575-1888 ext.28200",
+        mobile: "0952-515-666",
+        fax: "",
+        email: "aaronchang@kyec.com.tw",
+        address: "300 新竹市公道五路二段81號",
+        front: "02_半導體封裝測試業_OSAT/京元電子_2449/20261102_082334286_iOS 1.heic",
+        back: "02_半導體封裝測試業_OSAT/京元電子_2449/20261102_082343032_iOS.heic"
+      },
+      {
+        name: "江文山 (Alan Chiang)",
+        title: "財務管理處 副處長 (Deputy Director, Financial Management Div.)",
+        level: "高階",
+        industry: "02_半導體封裝測試業_OSAT",
+        company: "欣銓科技_3264",
+        phone: "03-597-6688 ext.1957",
+        mobile: "",
+        fax: "03-597-1397",
+        email: "alan.chiang@ardentec.com",
+        address: "303035 新竹縣湖口鄉新竹工業區文化路24號",
+        front: "02_半導體封裝測試業_OSAT/欣銓科技_3264/20261102_081918530_iOS.heic",
+        back: "02_半導體封裝測試業_OSAT/欣銓科技_3264/20261102_081924391_iOS.heic"
+      },
+      {
+        name: "劉安炫 博士 (AH Liu, Ph.D.)",
+        title: "總經理 (CEO)",
+        level: "高階",
+        industry: "03_半導體測試介面與探針卡業",
+        company: "雍智科技_6683",
+        phone: "03-550-9980 ext.6110",
+        mobile: "0919-256-976",
+        fax: "",
+        email: "AH.Liu@ksmt.com.tw",
+        address: "302047 新竹縣竹北市環科一路33號9樓",
+        front: "03_半導體測試介面與探針卡業/雍智科技_6683/20261102_082118585_iOS.heic",
+        back: "03_半導體測試介面與探針卡業/雍智科技_6683/20261102_082129733_iOS.heic"
+      },
+      {
+        name: "王子建 (Steven Wang)",
+        title: "總經理 (President)",
+        level: "高階",
+        industry: "03_半導體測試介面與探針卡業",
+        company: "漢民測試系統_7856",
+        phone: "+886-3-583-5688",
+        mobile: "0909-557-856",
+        fax: "",
+        email: "Steven.Wang@hermes-testing.com.tw",
+        address: "300047 新竹市埔頂路18號9樓",
+        front: "03_半導體測試介面與探針卡業/漢民測試系統_7856/20261102_082316486_iOS.heic",
+        back: "03_半導體測試介面與探針卡業/漢民測試系統_7856/20261102_082322087_iOS.heic"
+      },
+      {
+        name: "鐘涵存 (Henry Chung)",
+        title: "產品服務一課 產品經理 (Product Manager, Product Service I)",
+        level: "中階",
+        industry: "03_半導體測試介面與探針卡業",
+        company: "漢民測試系統_7856",
+        phone: "+886-3-583-5688 ext.5260",
+        mobile: "0912-528-928",
+        fax: "",
+        email: "Henry.Chung@hermes-testing.com.tw",
+        address: "300047 新竹市埔頂路18號9樓",
+        front: "03_半導體測試介面與探針卡業/漢民測試系統_7856/20261102_082254871_iOS.heic",
+        back: "03_半導體測試介面與探針卡業/漢民測試系統_7856/20261102_082306317_iOS.heic"
+      },
+      {
+        name: "林麗慧 (Cedi Lin)",
+        title: "財務部 公司治理長 資深經理 (Corporate Governance Officer / Senior Manager)",
+        level: "高階",
+        industry: "04_半導體與電子檢測及製程設備業",
+        company: "倍利科技_7822",
+        phone: "03-623-3089 ext.23323",
+        mobile: "",
+        fax: "",
+        email: "Cedi.lin@V5.com.tw",
+        address: "300094 新竹市科學工業園區力行三路7號7樓",
+        front: "04_半導體與電子檢測及製程設備業/倍利科技_7822/20261102_082021843_iOS.heic",
+        back: "04_半導體與電子檢測及製程設備業/倍利科技_7822/20261102_082031934_iOS.heic"
+      },
+      {
+        name: "陳品聿 (Celine Chen)",
+        title: "董事長特別助理 (Special Assistant to the Chairman)",
+        level: "高階",
+        industry: "04_半導體與電子檢測及製程設備業",
+        company: "大量科技_3167",
+        phone: "+886-3-368-6368",
+        mobile: "0922-005-888",
+        fax: "",
+        email: "celine.chen@tlhome.com.tw",
+        address: "334032 桃園市八德區豐田路68號",
+        front: "04_半導體與電子檢測及製程設備業/大量科技_3167/20261102_082059795_iOS.heic",
+        back: "04_半導體與電子檢測及製程設備業/大量科技_3167/20261102_082106731_iOS.heic"
+      },
+      {
+        name: "劉家倫 (Ricky Liu)",
+        title: "業務經理 (Sales Manager)",
+        level: "中階",
+        industry: "04_半導體與電子檢測及製程設備業",
+        company: "瀚軒_7894",
+        phone: "+886-3-461-1902 ext.535",
+        mobile: "0986-808-120",
+        fax: "",
+        email: "ricky_liu@hpc.com.tw",
+        address: "32068 桃園市中壢區中華路2段209號",
+        front: "04_半導體與電子檢測及製程設備業/瀚軒_7894/20261102_082434244_iOS.heic",
+        back: "04_半導體與電子檢測及製程設備業/瀚軒_7894/20261102_082440765_iOS.heic"
+      },
+      {
+        name: "蘇仁冠 (Steven Su)",
+        title: "業務專員 (Sales Specialist)",
+        level: "基層",
+        industry: "04_半導體與電子檢測及製程設備業",
+        company: "瀚軒_7894",
+        phone: "+886-3-461-1902",
+        mobile: "0963-925-388",
+        fax: "",
+        email: "steven_su@hpc.com.tw",
+        address: "32068 桃園市中壢區中華路2段209號",
+        front: "04_半導體與電子檢測及製程設備業/瀚軒_7894/20261102_082448123_iOS.heic",
+        back: "04_半導體與電子檢測及製程設備業/瀚軒_7894/20261102_082453156_iOS.heic"
+      }
+    ];
+
+    function updateCompanySelect() {
+      const ind = document.getElementById("industrySelect").value;
+      const compSelect = document.getElementById("companySelect");
+      compSelect.innerHTML = '<option value="">全部公司</option>';
+      const filteredComps = ind ? [...new Set(contacts.filter(c => c.industry === ind).map(c => c.company))] : [...new Set(contacts.map(c => c.company))];
+      filteredComps.forEach(comp => {
+        const opt = document.createElement("option");
+        opt.value = comp;
+        opt.textContent = comp;
+        compSelect.appendChild(opt);
+      });
+    }
+
+    function filterCards() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const indFilter = document.getElementById("industrySelect").value;
+      const compFilter = document.getElementById("companySelect").value;
+      const levelFilter = document.getElementById("levelSelect").value;
+
+      const filtered = contacts.filter(c => {
+        const matchSearch = !search || c.name.toLowerCase().includes(search) || c.company.toLowerCase().includes(search) || c.title.toLowerCase().includes(search) || (c.email && c.email.toLowerCase().includes(search));
+        const matchInd = !indFilter || c.industry === indFilter;
+        const matchComp = !compFilter || c.company === compFilter;
+        const matchLevel = !levelFilter || c.level === levelFilter;
+        return matchSearch && matchInd && matchComp && matchLevel;
+      });
+
+      renderDisplay(filtered);
+    }
+
+    function renderDisplay(data) {
+      const container = document.getElementById("cardsDisplay");
+      container.innerHTML = "";
+
+      if (data.length === 0) {
+        container.innerHTML = '<div class="industry-group"><p style="text-align:center; color:#888;">無符合條件的名片資料</p></div>';
+        return;
+      }
+
+      const industries = [...new Set(data.map(item => item.industry))];
+
+      industries.forEach(ind => {
+        const indSection = document.createElement("div");
+        indSection.className = "industry-group";
+
+        const indTitle = document.createElement("div");
+        indTitle.className = "industry-title";
+        indTitle.textContent = "🏭 產業別：" + ind;
+        indSection.appendChild(indTitle);
+
+        const indData = data.filter(item => item.industry === ind);
+        const companies = [...new Set(indData.map(item => item.company))];
+
+        companies.forEach(comp => {
+          const compSection = document.createElement("div");
+          compSection.className = "company-group";
+
+          const compTitle = document.createElement("div");
+          compTitle.className = "company-title";
+          compTitle.textContent = "🏢 公司別：" + comp;
+          compSection.appendChild(compTitle);
+
+          const grid = document.createElement("div");
+          grid.className = "card-grid";
+
+          const compData = indData.filter(item => item.company === comp);
+          const levelOrder = { "高階": 1, "中階": 2, "基層": 3 };
+          compData.sort((a, b) => (levelOrder[a.level] || 99) - (levelOrder[b.level] || 99));
+
+          compData.forEach(c => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            let badgeClass = "badge-high";
+            if (c.level === "中階") badgeClass = "badge-mid";
+            if (c.level === "基層") badgeClass = "badge-low";
+
+            card.innerHTML = `
+              <div>
+                <div class="card-header">
+                  <span class="card-name">${c.name}</span>
+                  <span class="badge ${badgeClass}">${c.level}</span>
+                </div>
+                <div class="card-info">
+                  <p><strong>職稱：</strong>${c.title}</p>
+                  <p><strong>公司：</strong>${c.company}</p>
+                  ${c.phone ? `<p><strong>電話：</strong>${c.phone}</p>` : ''}
+                  ${c.mobile ? `<p><strong>手機：</strong>${c.mobile}</p>` : ''}
+                  ${c.fax ? `<p><strong>傳真：</strong>${c.fax}</p>` : ''}
+                  ${c.email ? `<p><strong>Email：</strong><a href="mailto:${c.email}">${c.email}</a></p>` : ''}
+                  ${c.address ? `<p><strong>地址：</strong>${c.address}</p>` : ''}
+                </div>
+              </div>
+              <div class="card-links">
+                <a class="btn btn-link" href="${getFileUrl(c.front)}" target="_blank">📄 正面 .heic</a>
+                <a class="btn btn-link" href="${getFileUrl(c.back)}" target="_blank">📄 背面 .heic</a>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+
+          compSection.appendChild(grid);
+          indSection.appendChild(compSection);
+        });
+
+        container.appendChild(indSection);
+      });
+    }
+
+    initFolderNav();
+    updateCompanySelect();
+    renderDisplay(contacts);
+  </script>
+</body>
+</html>
   const indFilter = document.getElementById("industrySelect").value;
   const compFilter = document.getElementById("companySelect").value;
   const levelFilter = document.getElementById("levelSelect").value;
