@@ -1,11 +1,272 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8"><!DOCTYPE html>
-<html lang="zh-TW">
-<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneDrive 名片檔案索引網頁</title>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f7f9; color: #333; }
+  h1 { text-align: center; color: #005a9e; margin-bottom: 20px; }
+  .section { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px; }
+  .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 12px; color: #106ebe; border-bottom: 2px solid #0078d4; padding-bottom: 6px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+  .btn { display: inline-block; padding: 8px 14px; background: #0078d4; color: #fff; text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s; }
+  .btn:hover { background: #005a9e; }
+  .btn-sub { background: #2b88d8; font-size: 0.85rem; padding: 6px 10px; }
+  .btn-sub:hover { background: #106ebe; }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; align-items: center; }
+  .filter-item { display: flex; flex-direction: column; gap: 5px; }
+  .filter-item label { font-size: 0.85rem; font-weight: bold; color: #555; }
+  input, select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; }
+  .industry-group { margin-bottom: 30px; }
+  .industry-title { font-size: 1.3rem; color: #004578; background: #e1dfdd; padding: 8px 15px; border-radius: 5px; margin-bottom: 15px; }
+  .company-group { margin-left: 15px; margin-bottom: 20px; }
+  .company-title { font-size: 1.1rem; color: #106ebe; border-left: 4px solid #0078d4; padding-left: 10px; margin-bottom: 12px; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+  .card { background: #fff; border: 1px solid #e1dfdd; border-radius: 6px; padding: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .card-name { font-size: 1.1rem; font-weight: bold; color: #333; }
+  .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; color: #fff; }
+  .badge-high { background-color: #d13438; }
+  .badge-mid { background-color: #0078d4; }
+  .badge-low { background-color: #107c41; }
+  .card-info { font-size: 0.9rem; color: #666; margin-bottom: 12px; }
+  .card-links { display: flex; gap: 8px; }
+  .btn-link { background: #f3f2f1; color: #323130; border: 1px solid #8a8886; font-size: 0.8rem; padding: 5px 10px; text-decoration: none; border-radius: 4px; }
+  .btn-link:hover { background: #edebe9; }
+</style>
+</head>
+<body>
+
+<h1>OneDrive 名片檔案索引網頁</h1>
+
+<div class="section">
+  <div class="section-title">📂 OneDrive 資料夾快速導覽</div>
+  <div id="folderButtons"></div>
+</div>
+
+<div class="section">
+  <div class="section-title">🔍 名片搜尋與分層篩選</div>
+  <div class="filter-bar">
+    <div class="filter-item">
+      <label for="searchInput">關鍵字搜尋：</label>
+      <input type="text" id="searchInput" placeholder="搜尋姓名、公司或職稱..." oninput="filterCards()">
+    </div>
+    <div class="filter-item">
+      <label for="industrySelect">產業別篩選：</label>
+      <select id="industrySelect" onchange="filterCards()">
+        <option value="">全部產業</option>
+        <option value="01_IC設計業">01_IC設計業</option>
+        <option value="02_半導體封裝測試業_OSAT">02_半導體封裝測試業_OSAT</option>
+        <option value="03_半導體測試介面與探針卡業">03_半導體測試介面與探針卡業</option>
+        <option value="04_半導體與電子檢測及製程設備業">04_半導體與電子檢測及製程設備業</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <label for="companySelect">公司別篩選：</label>
+      <select id="companySelect" onchange="filterCards()">
+        <option value="">全部公司</option>
+        <option value="達發科技_6526">達發科技_6526</option>
+        <option value="博發電子_Bravotek">博發電子_Bravotek</option>
+        <option value="矽格_6257">矽格_6257</option>
+        <option value="京元電子_2449">京元電子_2449</option>
+        <option value="欣銓科技_3264">欣銓科技_3264</option>
+        <option value="雍智科技_6683">雍智科技_6683</option>
+        <option value="漢民測試系統_7856">漢民測試系統_7856</option>
+        <option value="倍利科技_7822">倍利科技_7822</option>
+        <option value="大量科技_3167">大量科技_3167</option>
+        <option value="瀚軒_7894">瀚軒_7894</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <label for="levelSelect">職階篩選：</label>
+      <select id="levelSelect" onchange="filterCards()">
+        <option value="">全部職階</option>
+        <option value="高階">高階</option>
+        <option value="中階">中階</option>
+        <option value="基層">基層</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div id="cardsDisplay"></div>
+
+<script>
+const baseOneDriveUrl = "https://onedrive.live.com/?id=";
+const rootPath = "/personal/86b2db5325c72033/Documents/名片集";
+const suffix = "&listurl=%2Fpersonal%2F86b2db5325c72033%2FDocuments&viewid=32393b06%2D55df%2D45ef%2D9b75%2D35d0de847e49&ithint=folder&migratedtospo=true&ga=1";
+
+function getFolderUrl(relPath) {
+  const fullPath = relPath ? rootPath + "/" + relPath : rootPath;
+  return baseOneDriveUrl + encodeURIComponent(fullPath) + suffix;
+}
+
+function renderFolderButtons() {
+  const container = document.getElementById("folderButtons");
+  const structure = [
+    { name: "名片集 (根目錄)", path: "", isRoot: true },
+    { name: "00_待整理_新上傳名片", path: "00_待整理_新上傳名片", isSub: true },
+    { name: "01_IC設計業", path: "01_IC設計業", subs: [
+      { name: "達發科技_6526", path: "01_IC設計業/達發科技_6526" },
+      { name: "博發電子_Bravotek", path: "01_IC設計業/博發電子_Bravotek" }
+    ]},
+    { name: "02_半導體封裝測試業_OSAT", path: "02_半導體封裝測試業_OSAT", subs: [
+      { name: "矽格_6257", path: "02_半導體封裝測試業_OSAT/矽格_6257" },
+      { name: "京元電子_2449", path: "02_半導體封裝測試業_OSAT/京元電子_2449" },
+      { name: "欣銓科技_3264", path: "02_半導體封裝測試業_OSAT/欣銓科技_3264" }
+    ]},
+    { name: "03_半導體測試介面與探針卡業", path: "03_半導體測試介面與探針卡業", subs: [
+      { name: "雍智科技_6683", path: "03_半導體測試介面與探針卡業/雍智科技_6683" },
+      { name: "漢民測試系統_7856", path: "03_半導體測試介面與探針卡業/漢民測試系統_7856" }
+    ]},
+    { name: "04_半導體與電子檢測及製程設備業", path: "04_半導體與電子檢測及製程設備業", subs: [
+      { name: "倍利科技_7822", path: "04_半導體與電子檢測及製程設備業/倍利科技_7822" },
+      { name: "大量科技_3167", path: "04_半導體與電子檢測及製程設備業/大量科技_3167" },
+      { name: "瀚軒_7894", path: "04_半導體與電子檢測及製程設備業/瀚軒_7894" }
+    ]}
+  ];
+
+  let html = `<p><strong>根目錄與未整理：</strong> 
+    <a class="btn" href="${getFolderUrl('')}" target="_blank">名片集 (根目錄)</a>
+    <a class="btn btn-sub" href="${getFolderUrl('00_待整理_新上傳名片')}" target="_blank">00_待整理_新上傳名片</a>
+  </p><p><strong>4 大產業與 10 家公司子資料夾：</strong></p>`;
+
+  structure.forEach(item => {
+    if (item.isRoot || item.isSub) return;
+    html += `<div class="btn-group">`;
+    html += `<a class="btn" href="${getFolderUrl(item.path)}" target="_blank">${item.name}</a>`;
+    if (item.subs) {
+      item.subs.forEach(sub => {
+        html += `<a class="btn btn-sub" href="${getFolderUrl(sub.path)}" target="_blank">└ ${sub.name}</a>`;
+      });
+    }
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+const contacts = [
+  { name: "蔡力行", title: "副董事長兼執行長", level: "高階", industry: "01_IC設計業", company: "達發科技_6526", front: "20261102_082343032_iOS.heic", back: "20261102_082355995_iOS.heic" },
+  { name: "蔡明介", title: "董事長", level: "高階", industry: "01_IC設計業", company: "達發科技_6526", front: "20261102_082404505_iOS.heic", back: "20261102_082412473_iOS.heic" },
+  { name: "汪培值", title: "工程師", level: "基層", industry: "01_IC設計業", company: "達發科技_6526", front: "20261102_082616156_iOS.heic", back: "20261102_082622424_iOS.heic" },
+  { name: "焦佑鈞", title: "董事長", level: "高階", industry: "01_IC設計業", company: "博發電子_Bravotek", front: "20261102_082528904_iOS.heic", back: "20261102_082537204_iOS.heic" },
+  { name: "廖達翔", title: "經理", level: "中階", industry: "01_IC設計業", company: "博發電子_Bravotek", front: "20261102_082600024_iOS.heic", back: "20261102_082611126_iOS.heic" },
+  { name: "吳田玉", title: "營運長", level: "高階", industry: "02_半導體封裝測試業_OSAT", company: "矽格_6257", front: "20261102_082421680_iOS.heic", back: "20261102_082434244_iOS.heic" },
+  { name: "張虔生", title: "董事長", level: "高階", industry: "02_半導體封裝測試業_OSAT", company: "矽格_6257", front: "20261102_082440765_iOS.heic", back: "20261102_082448123_iOS.heic" },
+  { name: "盧明光", title: "榮譽董事長", level: "高階", industry: "02_半導體封裝測試業_OSAT", company: "京元電子_2449", front: "20261102_082453156_iOS.heic", back: "20261102_082506413_iOS.heic" },
+  { name: "徐秀蘭", title: "董事長兼總裁", level: "高階", industry: "02_半導體封裝測試業_OSAT", company: "欣銓科技_3264", front: "20261102_082514293_iOS.heic", back: "20261102_082522847_iOS.heic" },
+  { name: "張忠謀", title: "創辦人", level: "高階", industry: "03_半導體測試介面與探針卡業", company: "雍智科技_6683", front: "20261102_081918530_iOS.heic", back: "20261102_081924391_iOS.heic" },
+  { name: "魏哲家", title: "董事長兼總裁", level: "高階", industry: "03_半導體測試介面與探針卡業", company: "雍智科技_6683", front: "20261102_081938827_iOS.heic", back: "20261102_081949868_iOS.heic" },
+  { name: "米玉傑", title: "執行副總經理", level: "高階", industry: "03_半導體測試介面與探針卡業", company: "漢民測試系統_7856", front: "20261102_082218880_iOS.heic", back: "20261102_082226169_iOS.heic" },
+  { name: "秦永沛", title: "執行副總經理", level: "高階", industry: "03_半導體測試介面與探針卡業", company: "漢民測試系統_7856", front: "20261102_082234340_iOS.heic", back: "20261102_082239713_iOS.heic" },
+  { name: "洪嘉聰", title: "董事長", level: "高階", industry: "04_半導體與電子檢測及製程設備業", company: "倍利科技_7822", front: "20261102_082254871_iOS.heic", back: "20261102_082306317_iOS.heic" },
+  { name: "王石", title: "共同總經理", level: "高階", industry: "04_半導體與電子檢測及製程設備業", company: "倍利科技_7822", front: "20261102_082316486_iOS.heic", back: "20261102_082322087_iOS.heic" },
+  { name: "簡山傑", title: "共同總經理", level: "高階", industry: "04_半導體與電子檢測及製程設備業", company: "大量科技_3167", front: "20261102_082334286_iOS.heic", back: "20261102_082334286_iOS 1.heic" },
+  { name: "陳泰銘", title: "董事長", level: "高階", industry: "04_半導體與電子檢測及製程設備業", company: "瀚軒_7894", front: "20261102_082541894_iOS.heic", back: "20261102_082555333_iOS.heic" }
+];
+
+function getFileUrl(filename) {
+  return baseOneDriveUrl + encodeURIComponent(rootPath + "/" + filename) + suffix;
+}
+
+function filterCards() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const indFilter = document.getElementById("industrySelect").value;
+  const compFilter = document.getElementById("companySelect").value;
+  const levelFilter = document.getElementById("levelSelect").value;
+
+  const filtered = contacts.filter(c => {
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.company.toLowerCase().includes(search) || c.title.toLowerCase().includes(search) || c.industry.toLowerCase().includes(search);
+    const matchInd = !indFilter || c.industry === indFilter;
+    const matchComp = !compFilter || c.company === compFilter;
+    const matchLevel = !levelFilter || c.level === levelFilter;
+    return matchSearch && matchInd && matchComp && matchLevel;
+  });
+
+  renderDisplay(filtered);
+}
+
+function renderDisplay(data) {
+  const container = document.getElementById("cardsDisplay");
+  container.innerHTML = "";
+
+  if (data.length === 0) {
+    container.innerHTML = '<div class="section"><p style="text-align:center; color:#888;">無符合條件的名片資料</p></div>';
+    return;
+  }
+
+  const industries = [...new Set(data.map(item => item.industry))];
+
+  industries.forEach(ind => {
+    const indSection = document.createElement("div");
+    indSection.className = "industry-group";
+
+    const indTitle = document.createElement("div");
+    indTitle.className = "industry-title";
+    indTitle.textContent = "🏢 產業別：" + ind;
+    indSection.appendChild(indTitle);
+
+    const indData = data.filter(item => item.industry === ind);
+    const companies = [...new Set(indData.map(item => item.company))];
+
+    companies.forEach(comp => {
+      const compSection = document.createElement("div");
+      compSection.className = "company-group";
+
+      const compTitle = document.createElement("div");
+      compTitle.className = "company-title";
+      compTitle.textContent = "🏭 公司別：" + comp;
+      compSection.appendChild(compTitle);
+
+      const grid = document.createElement("div");
+      grid.className = "card-grid";
+
+      const compData = indData.filter(item => item.company === comp);
+      
+      const levelOrder = { "高階": 1, "中階": 2, "基層": 3 };
+      compData.sort((a, b) => (levelOrder[a.level] || 99) - (levelOrder[b.level] || 99));
+
+      compData.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        let badgeClass = "badge-high";
+        if (c.level === "中階") badgeClass = "badge-mid";
+        if (c.level === "基層") badgeClass = "badge-low";
+
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="card-name">${c.name}</span>
+            <span class="badge ${badgeClass}">${c.level}</span>
+          </div>
+          <div class="card-info">
+            <p style="margin:4px 0;"><strong>職稱：</strong>${c.title}</p>
+            <p style="margin:4px 0;"><strong>公司：</strong>${c.company}</p>
+          </div>
+          <div class="card-links">
+            <a class="btn btn-link" href="${getFileUrl(c.front)}" target="_blank">📄 正面 .heic</a>
+            <a class="btn btn-link" href="${getFileUrl(c.back)}" target="_blank">📄 背面 .heic</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      compSection.appendChild(grid);
+      indSection.appendChild(compSection);
+    });
+
+    container.appendChild(indSection);
+  });
+}
+
+renderFolderButtons();
+filterCards();
+</script>
+
+</body>
+</html>, initial-scale=1.0">
 <title>OneDrive 名片檔案索引網頁</title>
 <style>
   body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f7f9; color: #333; }
