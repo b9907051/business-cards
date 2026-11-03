@@ -3,6 +3,762 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneDrive 名片檔案索引網頁 - 41 位真實聯絡人</title>
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f7f9; color: #333; }
+  h1 { text-align: center; color: #005a9e; margin-bottom: 20px; }
+  .summary-bar { text-align: center; font-size: 1.1rem; margin-bottom: 25px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); color: #0078d4; font-weight: bold; }
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 180px; }
+  .filter-item label { font-size: 0.85rem; font-weight: bold; color: #555; }
+  input, select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; }
+  .industry-group { margin-bottom: 35px; }
+  .industry-title { font-size: 1.3rem; color: #004578; background: #e1dfdd; padding: 10px 15px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; border-left: 5px solid #0078d4; }
+  .company-group { margin-left: 10px; margin-bottom: 25px; }
+  .company-title { font-size: 1.1rem; color: #106ebe; border-bottom: 2px solid #0078d4; padding-bottom: 6px; margin-bottom: 15px; font-weight: bold; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+  .card { background: #fff; border: 1px solid #e1dfdd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+  .card-name { font-size: 1.15rem; font-weight: bold; color: #111; }
+  .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; color: #fff; }
+  .badge-tier1 { background-color: #d13438; }
+  .badge-tier2 { background-color: #ff8c00; }
+  .badge-tier3 { background-color: #0078d4; }
+  .badge-tier4 { background-color: #107c41; }
+  .badge-tier5 { background-color: #5c2d91; }
+  .card-info { font-size: 0.88rem; color: #444; line-height: 1.6; margin-bottom: 12px; }
+  .card-info div { margin-bottom: 4px; }
+  .card-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .btn-sub { background: #2b88d8; color: #fff; text-decoration: none; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; }
+  .btn-sub:hover { background: #106ebe; }
+  .no-result { text-align: center; padding: 40px; color: #888; font-size: 1.1rem; }
+</style>
+</head>
+<body>
+
+<h1>OneDrive 名片檔案索引網頁</h1>
+
+<div class="summary-bar" id="summaryBar">
+  涵蓋 7 大產業類別・24 家企業與金融機構・41 位真實聯絡人 (共 85 張照片)
+</div>
+
+<div class="filter-bar">
+  <div class="filter-item">
+    <label for="searchInput">搜尋 (姓名/公司/職稱/Email)</label>
+    <input type="text" id="searchInput" placeholder="輸入關鍵字...">
+  </div>
+  <div class="filter-item">
+    <label for="industrySelect">產業類別</label>
+    <select id="industrySelect">
+      <option value="">全部產業 (7 大類別)</option>
+    </select>
+  </div>
+  <div class="filter-item">
+    <label for="tierSelect">職階篩選</label>
+    <select id="tierSelect">
+      <option value="">全部職階</option>
+      <option value="Tier 1 最高決策層">Tier 1 最高決策層</option>
+      <option value="Tier 2 副總／營運治理層">Tier 2 副總／營運治理層</option>
+      <option value="Tier 3 處長／協理級">Tier 3 處長／協理級</option>
+      <option value="Tier 4 經理／襄理級">Tier 4 經理／襄理級</option>
+      <option value="Tier 5 工程／研究／專員">Tier 5 工程／研究／專員</option>
+    </select>
+  </div>
+</div>
+
+<div id="cardsContainer"></div>
+
+<script>
+const cardsData = [
+  // 一、半導體上游：IC 設計業
+  {
+    industry: "一、半導體上游：IC 設計業",
+    company: "達發科技 (上市 6526｜統編 12883169)",
+    name: "廖益源 (Anderson Liao)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "財務處 財務協理 (Assistant General Manager, FIN)",
+    phone: "+886-3-612-8800 ext.78036",
+    mobile: "",
+    email: "anderson.liao@airoha.com",
+    address: "302 新竹縣竹北市台元二街12號14樓",
+    frontImage: "20261102_081959938_iOS.heic",
+    backImage: "20261102_082006539_iOS.heic"
+  },
+  {
+    industry: "一、半導體上游：IC 設計業",
+    company: "達發科技 (上市 6526｜統編 12883169)",
+    name: "楊雯葳 (Carina Yang)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "投資人關係 經理 (Manager, Investor Relations)",
+    phone: "+886-3-612-8800 ext.78037",
+    mobile: "",
+    email: "carina.yang@airoha.com",
+    address: "302 新竹縣竹北市台元二街12號14樓",
+    frontImage: "20261102_081938827_iOS.heic",
+    backImage: "20261102_081949868_iOS.heic"
+  },
+  {
+    industry: "一、半導體上游：IC 設計業",
+    company: "博發電子 (Bravotek｜統編 56950586)",
+    name: "黃建諭 (Vic Huang)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "產品工程部 經理 (Manager, Product Engineering Dept.)",
+    phone: "+886-3-622-1268 ext.230",
+    mobile: "0936-328-101",
+    email: "vic.huang@bravotekcorp.com",
+    address: "302082 新竹縣竹北市台元一街6號10樓",
+    frontImage: "20261102_082355995_iOS.heic",
+    backImage: "20261102_082404505_iOS.heic"
+  },
+  {
+    industry: "一、半導體上游：IC 設計業",
+    company: "博發電子 (Bravotek｜統編 56950586)",
+    name: "林義森 (Eason Lin)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "產品工程部 資深工程師 (Senior Engineer, Product Engineering Dept.)",
+    phone: "+886-3-622-1268 ext.269",
+    mobile: "0912-232-733",
+    email: "eason.lin@bravotekcorp.com",
+    address: "302082 新竹縣竹北市台元一街6號10樓",
+    frontImage: "20261102_082412473_iOS.heic",
+    backImage: "20261102_082421680_iOS.heic"
+  },
+
+  // 二、半導體後段：專業封裝與測試服務業 OSAT
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "日月光投資控股 (ASE Holding 上市 3711｜統編 29187308)",
+    name: "項世傑 (Kenneth S. Hsiang)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "投資人關係長 / ISE Labs 執行長 (Head of IR / CEO, ISE Labs US & China)",
+    phone: "+886-2-6636-5678",
+    mobile: "",
+    email: "ken.hsiang@asetechholding.com",
+    address: "110 台北市基隆路一段333號 國貿大樓19樓1901室",
+    frontImage: "20261102_082850645_iOS.heic",
+    backImage: "20261102_082855635_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "日月光投資控股 (ASE Holding 上市 3711｜統編 29187308)",
+    name: "吳書嫻 (Iris Wu)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "投資人關係/策略發展部 處長 (Director, IR/Strategic Planning)",
+    phone: "+886-2-6636-5678",
+    mobile: "",
+    email: "iris.wu@asetechholding.com",
+    address: "110 台北市基隆路一段333號 國貿大樓19樓1901室",
+    frontImage: "20261102_082814930_iOS.heic",
+    backImage: "20261102_082819896_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "日月光投資控股 (ASE Holding 上市 3711｜統編 29187308)",
+    name: "鄧祉恩 (Grace Teng)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "財務部 經理 (Manager, Finance Dept.)",
+    phone: "+886-2-6636-5678",
+    mobile: "",
+    email: "grace_teng@aseglobal.com",
+    address: "110 台北市基隆路一段333號 國貿大樓19樓1901室",
+    frontImage: "20261102_082832146_iOS.heic",
+    backImage: "20261102_082839435_iOS.heic (及 20261102_082839435_iOS 1.heic)"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "日月光投資控股 (ASE Holding 上市 3711｜統編 29187308)",
+    name: "廖家宜 (Chiayi Liao)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "投資人關係/策略發展部 資深專員 (Senior Associate, IR/Strategic Planning)",
+    phone: "+886-2-6636-5678",
+    mobile: "",
+    email: "chiayi.liao@asetechholding.com",
+    address: "110 台北市基隆路一段333號 國貿大樓19樓1901室",
+    frontImage: "20261102_082901669_iOS.heic",
+    backImage: "20261102_082909002_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "矽格 (Sigurd 上市 6257｜統編 23218022)",
+    name: "黃興陽 (Sidney Huang)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "董事長暨執行長 (Chairman & CEO)",
+    phone: "03-595-9213",
+    mobile: "",
+    fax: "03-594-4495",
+    email: "",
+    address: "新竹縣竹東鎮北興路一段436號",
+    frontImage: "20261102_082234340_iOS.heic",
+    backImage: "20261102_082239713_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "矽格 (Sigurd 上市 6257｜統編 23218022)",
+    name: "葉燦鍊 (Charles Yeh)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "副董事長暨總經理 (Vice Chairman & President)",
+    phone: "03-595-9213",
+    mobile: "",
+    email: "cyeh@sigurd.com.tw",
+    address: "新竹縣竹東鎮北興路一段436號",
+    frontImage: "20261102_082216920_iOS.heic",
+    backImage: "20261102_082226169_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "矽格 (Sigurd 上市 6257｜統編 23218022)",
+    name: "郭旭東 (Wilson Kuo)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "共同營運長 全球銷售及行銷總經理 (CO-COO, GM, Global Sales & Marketing)",
+    phone: "03-597-1698",
+    mobile: "",
+    email: "",
+    address: "新竹縣湖口鄉新竹工業區四維路一號",
+    frontImage: "20261102_082157673_iOS.heic",
+    backImage: "20261102_082204560_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "矽格 (Sigurd 上市 6257｜統編 23218022)",
+    name: "陳祺昌 (Peter Chen)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "發言人 (Spokesperson)",
+    phone: "03-595-9213 ext.1514",
+    mobile: "0955-371-190",
+    email: "peter_chen@sigurd.com.tw",
+    address: "新竹縣竹東鎮北興路一段436號",
+    frontImage: "20261102_082141865_iOS.heic",
+    backImage: "20261102_082147427_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "京元電子 (KYEC 上市 2449｜統編 22507241)",
+    name: "張垂欽 (Aaron Chang)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "企劃處 處長 (Director, Planning Div.)",
+    phone: "+886-3-575-1888 ext.28200",
+    mobile: "0952-515-666",
+    email: "aaronchang@kyec.com.tw",
+    address: "300 新竹市公道五路二段81號",
+    frontImage: "20261102_082334286_iOS 1.heic",
+    backImage: "20261102_082343032_iOS.heic"
+  },
+  {
+    industry: "二、半導體後段：專業封裝與測試服務業 OSAT",
+    company: "欣銓科技 (Ardentec 上櫃 3264｜統編 70751779)",
+    name: "江文山 (Alan Chiang)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "財務管理處 副處長 (Deputy Director, Financial Management Div.)",
+    phone: "03-597-6688 ext.1957",
+    mobile: "",
+    email: "alan.chiang@ardentec.com",
+    address: "303035 新竹縣湖口鄉新竹工業區文化路24號",
+    frontImage: "20261102_081918530_iOS.heic",
+    backImage: "20261102_081924391_iOS.heic"
+  },
+
+  // 三、半導體測試介面與探針卡／載板業
+  {
+    industry: "三、半導體測試介面與探針卡／載板業",
+    company: "雍智科技 (Keystone Microtech 上櫃 6683｜統編 28398895)",
+    name: "劉安炫 博士 (AH Liu, Ph.D.)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "總經理 (CEO)",
+    phone: "03-550-9980 ext.6110",
+    mobile: "0919-256-976",
+    email: "AH.Liu@ksmt.com.tw",
+    address: "302047 新竹縣竹北市環科一路33號9樓",
+    frontImage: "20261102_082118585_iOS.heic",
+    backImage: "20261102_082129733_iOS.heic"
+  },
+  {
+    industry: "三、半導體測試介面與探針卡／載板業",
+    company: "漢民測試系統 (HTSI 興櫃 7856｜統編 27440348)",
+    name: "王子建 (Steven Wang)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "總經理 (President)",
+    phone: "+886-3-583-5688",
+    mobile: "0909-557-856",
+    email: "Steven.Wang@hermes-testing.com.tw",
+    address: "300047 新竹市埔頂路18號9樓",
+    frontImage: "20261102_082316486_iOS.heic",
+    backImage: "20261102_082322087_iOS.heic"
+  },
+  {
+    industry: "三、半導體測試介面與探針卡／載板業",
+    company: "漢民測試系統 (HTSI 興櫃 7856｜統編 27440348)",
+    name: "鐘涵存 (Henry Chung)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "產品服務一課 產品經理 (Product Manager, Product Service I)",
+    phone: "+886-3-583-5688 ext.5260",
+    mobile: "0912-528-928",
+    email: "Henry.Chung@hermes-testing.com.tw",
+    address: "300047 新竹市埔頂路18號9樓",
+    frontImage: "20261102_082254871_iOS.heic",
+    backImage: "20261102_082306317_iOS.heic"
+  },
+
+  // 四、半導體與電子檢測及製程設備業
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "倍利科技 (V5TEC 興櫃 7822｜統編 54807093)",
+    name: "林麗慧 (Cedi Lin)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "財務部 公司治理長 資深經理 (CGO / Senior Manager)",
+    phone: "03-623-3089 ext.23323",
+    mobile: "",
+    email: "Cedi.lin@V5.com.tw",
+    address: "300094 新竹市科學工業園區力行三路7號7樓",
+    frontImage: "20261102_082021843_iOS.heic",
+    backImage: "20261102_082031934_iOS.heic"
+  },
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "大量科技 (Ta Liang 上市 3167｜統編 43938484)",
+    name: "陳品聿 (Celine Chen)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "董事長特別助理 (Special Assistant to the Chairman)",
+    phone: "+886-3-368-6368",
+    mobile: "0922-005-888",
+    email: "celine.chen@tlhome.com.tw",
+    address: "334032 桃園市八德區豐田路68號",
+    frontImage: "20261102_082059795_iOS.heic",
+    backImage: "20261102_082106731_iOS.heic"
+  },
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "瀚軒 (Hypersonic 興櫃 7894｜統編 22615380)",
+    name: "劉家倫 (Ricky Liu)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "業務經理 (Sales Manager)",
+    phone: "+886-3-461-1902 ext.535",
+    mobile: "0986-808-120",
+    email: "ricky_liu@hpc.com.tw",
+    address: "32068 桃園市中壢區中華路2段209號",
+    frontImage: "20261102_082434244_iOS.heic",
+    backImage: "20261102_082440765_iOS.heic"
+  },
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "瀚軒 (Hypersonic 興櫃 7894｜統編 22615380)",
+    name: "林育儒 (Luke Lin)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "業務經理 (Sales Manager)",
+    phone: "+886-3-461-1902 ext.330",
+    mobile: "0971-220-236",
+    email: "luke_lin@hpc.com.tw",
+    address: "32068 桃園市中壢區中華路2段209號",
+    frontImage: "20261102_082506413_iOS.heic",
+    backImage: "20261102_082514293_iOS.heic"
+  },
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "瀚軒 (Hypersonic 興櫃 7894｜統編 22615380)",
+    name: "蘇仁冠 (Steven Su)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "業務專員 (Sales Specialist)",
+    phone: "+886-3-461-1902",
+    mobile: "0963-925-388",
+    email: "steven_su@hpc.com.tw",
+    address: "32068 桃園市中壢區中華路2段209號",
+    frontImage: "20261102_082448123_iOS.heic",
+    backImage: "20261102_082453156_iOS.heic"
+  },
+  {
+    industry: "四、半導體與電子檢測及製程設備業",
+    company: "大族半導體裝備科技 / 香港商大族科技台灣分公司 (HSET / Han's Laser｜統編 58246306)",
+    name: "莊名琨 (Marvin Chuang)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "經理 (Manager)",
+    phone: "03-536-0970 / 03-746-1120",
+    mobile: "0937-154-374 / +86-132-6228-9952",
+    email: "zhuangmk127497@hanslaser.com",
+    address: "苗栗縣竹南鎮環市路一段39號1樓／新竹市東大路三段77巷33號",
+    frontImage: "20261102_082522847_iOS.heic",
+    backImage: "20261102_082528904_iOS.heic"
+  },
+
+  // 五、電子零組件與被動元件業
+  {
+    industry: "五、電子零組件與被動元件業",
+    company: "三星電機台灣分公司 (Samsung Electro-Mechanics Taiwan Branch｜統編 53676024)",
+    name: "李立偉 (Haman Lee)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "Component TM2 / Staff Engineer",
+    phone: "+886-2-2656-8357",
+    mobile: "0939-529-236",
+    email: "haman.lee@samsung.com",
+    address: "台北市內湖區瑞光路399號9樓-1",
+    frontImage: "20261102_082537204_iOS.heic",
+    backImage: "20261102_082541894_iOS.heic"
+  },
+
+  // 六、金融機構 Buy-Side：投信／壽險／投顧
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "景順投信 (Invesco Taiwan｜統編 86384954)",
+    name: "川島義彥 CFA (Yoshihiko Kawashima, CFA)",
+    tier: "Tier 1 最高決策層",
+    badgeClass: "badge-tier1",
+    title: "投資管理處 台灣投資管理處主管 & 亞洲區(日本除外)可持續股票投資主管",
+    phone: "02-8729-9811",
+    mobile: "",
+    email: "yoshihiko.kawashima@invesco.com",
+    address: "11047 臺北市信義區松智路1號22樓",
+    frontImage: "20261102_083106435_iOS.heic",
+    backImage: "20261102_083113772_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "景順投信 (Invesco Taiwan｜統編 86384954)",
+    name: "蕭若梅 (Ariel Hsiao)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "股票投資部 協理 / 部門主管 (AVP / Head of Equity Investment)",
+    phone: "02-8729-9813",
+    mobile: "",
+    email: "ariel.hsiao@invesco.com",
+    address: "11047 臺北市信義區松智路1號22樓",
+    frontImage: "20261102_083139534_iOS.heic",
+    backImage: "20261102_083144803_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "景順投信 (Invesco Taiwan｜統編 86384954)",
+    name: "鄭宗豪 (Edward Cheng)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "股票投資部 協理 (AVP, Equity Investment Dept.)",
+    phone: "02-8729-9809",
+    mobile: "",
+    email: "edward.cheng@invesco.com",
+    address: "11047 臺北市信義區松智路1號22樓",
+    frontImage: "20261102_083124099_iOS.heic",
+    backImage: "20261102_083131623_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "中國信託投信 (CTBC Investments｜統編 16439219)",
+    name: "唐祖蔭 (Jack Tang)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "股權投資二科 投資副總 (Investment SVP, Equity Investment Section II)",
+    phone: "02-2652-6688 ext.3122",
+    mobile: "",
+    email: "jack.tang@ctbcinvestments.com",
+    address: "11568 臺北市南港區經貿二路188號12樓",
+    frontImage: "20261102_082722759_iOS.heic",
+    backImage: "20261102_082726625_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "中國信託投信 (CTBC Investments｜統編 16439219)",
+    name: "劉哲維 (Chewei Liu)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "投資三部 協理 (VP, Investment Dept. III)",
+    phone: "02-2652-6688 ext.3700 / 02-2652-6627",
+    mobile: "",
+    email: "chewei.liu@ctbcinvestments.com",
+    address: "11568 臺北市南港區經貿二路188號12樓",
+    frontImage: "20261102_082734132_iOS.heic",
+    backImage: "20261102_082738221_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "中國信託投信 (CTBC Investments｜統編 16439219)",
+    name: "許鴻鈞 (Frank Hsu)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "投資三部 經理 (Manager, Investment Dept. III)",
+    phone: "02-2652-6688 ext.3727",
+    mobile: "",
+    email: "Frank.Hsu@ctbcinvestments.com",
+    address: "11568 臺北市南港區經貿二路188號12樓",
+    frontImage: "20261102_082709151_iOS.heic",
+    backImage: "20261102_082714103_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "台灣人壽 (Taiwan Life｜統編 03557017)",
+    name: "許嘉倫 (Michelle Hsu)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "股權投資一部 經理 (Manager, Equity Investment Dept. I)",
+    phone: "02-8170-9888 ext.6473",
+    mobile: "",
+    email: "michelle.hsu@taiwanlife.com",
+    address: "115018 臺北市南港區經貿二路111號23樓",
+    frontImage: "20261102_082651102_iOS.heic",
+    backImage: "20261102_082657032_iOS.heic"
+  },
+  {
+    industry: "六、金融機構 Buy-Side：投信／壽險／投顧",
+    company: "合庫投顧 (TCS Investment Consultant｜統編 94010641)",
+    name: "蔡沛錡 (Michael Tsai)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "研究部 研究員 (Researcher, Research Dept.)",
+    phone: "02-2562-6200 ext.818",
+    mobile: "",
+    email: "MICHAELTSAI@tcsconsult.com.tw",
+    address: "104 台北市中山區南京東路二段85、87號2樓",
+    frontImage: "20261102_082555333_iOS.heic",
+    backImage: "20261102_082600024_iOS.heic"
+  },
+
+  // 七、金融機構 Sell-Side：證券法人部／投行／銀行／資融
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "富邦證券 (Fubon Securities｜統編 22957301)",
+    name: "翁砥勝 (Vincent Wong, CSIA, CFTA)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "法人業務處 副總經理 (SVP, Institutional Business Div.)",
+    phone: "02-2772-5938 ext.61699",
+    mobile: "",
+    email: "vincent.wong@fubon.com",
+    address: "106 台北市大安區仁愛路四段169號5樓",
+    frontImage: "20261102_082611126_iOS.heic",
+    backImage: "20261102_082616156_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "富邦證券 (Fubon Securities｜統編 22957301)",
+    name: "游宗平 (Bruce Yu)",
+    tier: "Tier 2 副總／營運治理層",
+    badgeClass: "badge-tier2",
+    title: "投資銀行部 業務副總經理 (SVP, Investment Banking Dept.)",
+    phone: "02-8771-6888 ext.62931",
+    mobile: "0926-893-296",
+    email: "bruce.yu@fubon.com",
+    address: "106 台北市大安區敦化南路一段111號9樓",
+    frontImage: "20261102_082622424_iOS.heic",
+    backImage: "20261102_082627620_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "永豐金證券 (SinoPac Securities｜統編 23113343)",
+    name: "張弘毅 (Henry Chang)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "通路事業處 法人業務部 業務協理 (SVP, Institutional Sales & Trading Dept.)",
+    phone: "02-2382-8756",
+    mobile: "0933-134-109",
+    email: "hongi.chang@sinopac.com",
+    address: "100 台北市重慶南路一段2號19樓",
+    frontImage: "20261102_083050314_iOS.heic",
+    backImage: "20261102_083054966_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "第一金證券 (First Securities｜統編 22959223)",
+    name: "劉貞秀 (Jenny Liu)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "法人部 業務協理 (AVP, Institutional Dept.)",
+    phone: "02-2563-6262 ext.219",
+    mobile: "0937-877-396",
+    email: "jenny.liu@firstsec.com.tw",
+    address: "104406 臺北市長安東路一段22號4樓",
+    frontImage: "20261102_082921450_iOS.heic",
+    backImage: "20261102_082926014_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "華南永昌證券 (Hua Nan Securities｜統編 22955774)",
+    name: "袁美雯 (Tina Yuan)",
+    tier: "Tier 3 處長／協理級",
+    badgeClass: "badge-tier3",
+    title: "國內法人部 業務協理 (Sales AVP, Institutional Sales Dept.)",
+    phone: "02-2545-6888 ext.8863 / 02-2545-8020",
+    mobile: "0938-103-888",
+    email: "10137@entrust.com.tw",
+    address: "105 台北市民生東路四段54號4樓",
+    frontImage: "20261102_083036232_iOS.heic",
+    backImage: "20261102_083044046_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "玉山證券 (E.SUN Securities｜玉山金控)",
+    name: "林奕瑄 (Gina Lin)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "經紀事業處 法人業務部 業務襄理",
+    phone: "02-5556-1313 ext.6198",
+    mobile: "",
+    email: "Gina0823-72190@esunsec.com.tw",
+    address: "10596 臺北市松山區民生東路三段158號6樓",
+    frontImage: "20261102_083008145_iOS.heic",
+    backImage: "20261102_083013372_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "玉山證券 (E.SUN Securities｜玉山金控)",
+    name: "陳亨安 (Sam Chen)",
+    tier: "Tier 5 工程／研究／專員",
+    badgeClass: "badge-tier5",
+    title: "經紀事業處 法人業務部 業務專員",
+    phone: "02-5556-1313 ext.6199",
+    mobile: "0930-792-393",
+    email: "SamChen-71915@esunsec.com.tw",
+    address: "10596 臺北市松山區民生東路三段158號6樓",
+    frontImage: "20261102_083021918_iOS.heic",
+    backImage: "20261102_083028277_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "王道銀行 (O-Bank 上市 2897｜統編 70745361)",
+    name: "江承儒 (Chengju Chiang)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "金融市場處 金融交易部 經理 (Manager, Treasury Dept.)",
+    phone: "02-8752-7000 ext.11562 / 02-8752-7060",
+    mobile: "",
+    email: "chengjuchiang@o-bank.com",
+    address: "114514 台北市內湖區堤頂大道二段99號5樓",
+    frontImage: "20261102_082951041_iOS.heic",
+    backImage: "20261102_082956295_iOS.heic"
+  },
+  {
+    industry: "七、金融機構 Sell-Side：證券法人部／投行／銀行／資融",
+    company: "中國信託資融 (CTBC Finance｜統編 80503378)",
+    name: "連建智 (Leo Lien)",
+    tier: "Tier 4 經理／襄理級",
+    badgeClass: "badge-tier4",
+    title: "風險控管部 經理 (Manager, Risk Management Dept.)",
+    phone: "02-2388-0011 ext.2707",
+    mobile: "0915-551-550",
+    email: "leo.lien@ctbcfinance.com",
+    address: "115606 臺北市南港區經貿二路188之1號12樓",
+    frontImage: "20261102_082744203_iOS.heic",
+    backImage: "20261102_082748247_iOS.heic"
+  }
+];
+
+// Populate Industry Dropdown
+const industrySelect = document.getElementById('industrySelect');
+const industries = [...new Set(cardsData.map(c => c.industry))];
+industries.forEach(ind => {
+  const opt = document.createElement('option');
+  opt.value = ind;
+  opt.textContent = ind;
+  industrySelect.appendChild(opt);
+});
+
+function renderCards() {
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const selectedInd = document.getElementById('industrySelect').value;
+  const selectedTier = document.getElementById('tierSelect').value;
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+
+  const filtered = cardsData.filter(c => {
+    const matchSearch = !search || 
+      c.name.toLowerCase().includes(search) || 
+      c.company.toLowerCase().includes(search) || 
+      c.title.toLowerCase().includes(search) || 
+      c.email.toLowerCase().includes(search);
+    const matchInd = !selectedInd || c.industry === selectedInd;
+    const matchTier = !selectedTier || c.tier === selectedTier;
+    return matchSearch && matchInd && matchTier;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-result">未找到符合條件的聯絡人</div>';
+    return;
+  }
+
+  // Group by Industry -> Company
+  const grouped = {};
+  filtered.forEach(c => {
+    if (!grouped[c.industry]) grouped[c.industry] = {};
+    if (!grouped[c.industry][c.company]) grouped[c.industry][c.company] = [];
+    grouped[c.industry][c.company].push(c);
+  });
+
+  for (const ind in grouped) {
+    const indDiv = document.createElement('div');
+    indDiv.className = 'industry-group';
+    indDiv.innerHTML = `<div class="industry-title">${ind}</div>`;
+
+    for (const comp in grouped[ind]) {
+      const compDiv = document.createElement('div');
+      compDiv.className = 'company-group';
+      compDiv.innerHTML = `<div class="company-title">${comp}</div>`;
+
+      const gridDiv = document.createElement('div');
+      gridDiv.className = 'card-grid';
+
+      grouped[ind][comp].forEach(c => {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'card';
+        
+        let detailsHtml = `<div><strong>職稱：</strong>${c.title}</div>`;
+        if (c.phone) detailsHtml += `<div><strong>電話：</strong>${c.phone}</div>`;
+        if (c.mobile) detailsHtml += `<div><strong>手機：</strong>${c.mobile}</div>`;
+        if (c.fax) detailsHtml += `<div><strong>傳真：</strong>${c.fax}</div>`;
+        if (c.email) detailsHtml += `<div><strong>Email：</strong><a href="mailto:${c.email}">${c.email}</a></div>`;
+        if (c.address) detailsHtml += `<div><strong>地址：</strong>${c.address}</div>`;
+
+        cardDiv.innerHTML = `
+          <div class="card-header">
+            <span class="card-name">${c.name}</span>
+            <span class="badge ${c.badgeClass}">${c.tier}</span>
+          </div>
+          <div class="card-info">
+            ${detailsHtml}
+          </div>
+          <div class="card-links">
+            <span class="btn-sub">正面: ${c.frontImage}</span>
+            <span class="btn-sub">背面: ${c.backImage}</span>
+          </div>
+        `;
+        gridDiv.appendChild(cardDiv);
+      });
+
+      compDiv.appendChild(gridDiv);
+      indDiv.appendChild(compDiv);
+    }
+
+    container.appendChild(indDiv);
+  }
+}
+
+document.getElementById('searchInput').addEventListener('input', renderCards);
+document.getElementById('industrySelect').addEventListener('change', renderCards);
+document.getElementById('tierSelect').addEventListener('change', renderCards);
+
+renderCards();
+</script>
+
+</body>
+<</html>
 <title>OneDrive 名片檔案索引網頁</title>
 <style>
   body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f7f9; color: #333; }
