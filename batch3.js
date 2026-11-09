@@ -67,3 +67,633 @@
   if (industrySelect.options[0]) industrySelect.options[0].textContent = "所有產業類別 (9 大類)";
   renderDirectory();
 })();
+
+
+
+// === Batch 4 Update (20261109_* : 59 .heic files, 16 IC Design companies, 29 net new contacts + 1 existing updated) ===
+(function applyBatch4() {
+  if (typeof cardsData === "undefined") return;
+  const extraLiaoFiles = ["20261109_071908144_iOS.heic", "20261109_071914442_iOS.heic"];
+  const liao = cardsData.find(c => c.companyFolder === "達發科技_6526" && c.name === "廖益源");
+  if (liao) {
+    extraLiaoFiles.forEach(f => {
+      if (!liao.files.includes(f)) liao.files.push(f);
+    });
+    liao.address = "300 新竹科學園區篤行路6-5號5F／302 新竹縣竹北市台元二街12號14樓";
+  }
+
+  const batch4Contacts = [
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "立積電子 RichWave (4968)",
+    "companyFolder": "立積電子_4968",
+    "name": "阮泓諭",
+    "enName": "Wendy Juan",
+    "tier": 3,
+    "title": "總經理室 IR經理 (IR Manager, President Office)",
+    "phone": "02-8751-1358 ext.120",
+    "mobile": "0979-771-150",
+    "fax": "02-6600-6887",
+    "email": "wendyjuan@richwave.com.tw",
+    "address": "114 台北市內湖區堤頂大道二段407巷20弄1號3樓",
+    "files": [
+      "20261109_070930638_iOS.heic",
+      "20261109_070936740_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "意騰科技 Intelligo (7749)",
+    "companyFolder": "意騰科技_7749",
+    "name": "林孟學",
+    "enName": "MH Lin",
+    "tier": 1,
+    "title": "集團策略長 (Group Chief Strategy Officer)",
+    "phone": "+886-3-602-9928",
+    "mobile": "",
+    "fax": "",
+    "email": "mh.lin@intelli-go.com",
+    "address": "302052 新竹縣竹北市復興三路二段168號11樓之3",
+    "files": [
+      "20261109_071457049_iOS.heic",
+      "20261109_071506597_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "意騰科技 Intelligo (7749)",
+    "companyFolder": "意騰科技_7749",
+    "name": "許維新",
+    "enName": "Winson Hsu",
+    "tier": 2,
+    "title": "副總經理暨發言人 (Vice President and Spokesperson)",
+    "phone": "+886-3-602-9928 ext.210",
+    "mobile": "",
+    "fax": "",
+    "email": "winson.hsu@intelli-go.com",
+    "address": "302052 新竹縣竹北市復興三路二段168號11樓之3",
+    "files": [
+      "20261109_071224826_iOS.heic",
+      "20261109_071242854_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "信驊科技 ASPEED (5274)",
+    "companyFolder": "信驊科技_5274",
+    "name": "吳俐俐",
+    "enName": "Lili Wu",
+    "tier": 3,
+    "title": "經理／發言人 (Manager / Spokesperson)",
+    "phone": "02-2570-0085 ext.6668",
+    "mobile": "0975-083-785",
+    "fax": "02-2570-1085",
+    "email": "lili_wu@aspeedtech.com",
+    "address": "10553 台北市松山區南京東路四段16號5樓-A5",
+    "files": [
+      "20261109_071548436_iOS.heic",
+      "20261109_071600052_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "譜瑞科技 Parade (4966)",
+    "companyFolder": "譜瑞_4966",
+    "name": "張祐銘",
+    "enName": "Yo-ming Chang",
+    "tier": 2,
+    "title": "財務處長 (Director, Finance, Taiwan Branch Office)",
+    "phone": "台北 (02)2627-9109 ext.5322 / 新竹 (03)560-1608",
+    "mobile": "0956-868-888",
+    "fax": "(02)2627-9339 / (03)560-7659",
+    "email": "yoming.chang@paradetech.com",
+    "address": "台北市內湖區瑞光路335號14樓／新竹縣竹北市台元一街6號2樓之3",
+    "files": [
+      "20261109_071614828_iOS.heic",
+      "20261109_071621262_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "盛群半導體 Holtek (6202)",
+    "companyFolder": "盛群半導體_6202",
+    "name": "蔡榮宗",
+    "enName": "Armstrong Tsai",
+    "tier": 2,
+    "title": "業務行銷中心 副總經理 (VP, Sales & Marketing Center)",
+    "phone": "03-567-3527 (新竹) / 02-2655-7070 ext.2200 (台北)",
+    "mobile": "+886-936-520528 / +86-185-6616-9790",
+    "fax": "03-563-1175",
+    "email": "armstro@holtek.com.tw",
+    "address": "300 新竹市科學園區研新二路3號／115 台北市南港區園區街3之2號4樓之2",
+    "files": [
+      "20261109_071646321_iOS.heic",
+      "20261109_071655156_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "台灣矽力杰 Silergy (6415)",
+    "companyFolder": "矽力杰_6415",
+    "name": "梁翠嫚",
+    "enName": "Maggie Liang",
+    "tier": 3,
+    "title": "資深投資人關係經理 (Senior IR Manager)",
+    "phone": "02-2221-5266 #219",
+    "mobile": "0920-399-843",
+    "fax": "02-2221-5778",
+    "email": "ir@silergycorp.com",
+    "address": "235 新北市中和區板南路653號10樓",
+    "files": [
+      "20261109_071717302_iOS.heic",
+      "20261109_071722613_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞鼎科技 Raydium (3592)",
+    "companyFolder": "瑞鼎科技_3592",
+    "name": "黃耀裕",
+    "enName": "Rich Huang",
+    "tier": 2,
+    "title": "總經理室 產品事業壹部 副總經理 (VP, Business Unit I)",
+    "phone": "(03)666-1818 ext.3268",
+    "mobile": "0953-052-466",
+    "fax": "(03)666-1919",
+    "email": "rich.huang@rad-ic.com",
+    "address": "300 新竹市科學工業園區力行路23號二樓",
+    "files": [
+      "20261109_071811023_iOS.heic",
+      "20261109_071817460_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞鼎科技 Raydium (3592)",
+    "companyFolder": "瑞鼎科技_3592",
+    "name": "林佩怡",
+    "enName": "Patty Lin",
+    "tier": 2,
+    "title": "協理兼發言人 (Associate VP & Spokesperson)",
+    "phone": "(03)666-1818",
+    "mobile": "0905-983-592",
+    "fax": "(03)666-1919",
+    "email": "Raydium@rad-ic.com",
+    "address": "300 新竹市科學工業園區力行路23號二樓",
+    "files": [
+      "20261109_071747715_iOS.heic",
+      "20261109_071757958_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞鼎科技 Raydium (3592)",
+    "companyFolder": "瑞鼎科技_3592",
+    "name": "吳志宏",
+    "enName": "Terence Wu",
+    "tier": 2,
+    "title": "財務中心 專案處長 (Project Director, Finance Center)",
+    "phone": "(03)666-1818 ext.(HC)2820, (TP)5672",
+    "mobile": "0905-983-592",
+    "fax": "(03)666-1919",
+    "email": "terence.wu@rad-ic.com",
+    "address": "300 新竹市科學工業園區力行路23號二樓",
+    "files": [
+      "20261109_071731344_iOS.heic",
+      "20261109_071738340_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "達發科技 Airoha (6526)",
+    "companyFolder": "達發科技_6526",
+    "name": "謝孟翰",
+    "enName": "MH Shieh",
+    "tier": 2,
+    "title": "企業規劃室暨發言人 資深副總經理 (SVP & Spokesperson)",
+    "phone": "+886-3-612-8800",
+    "mobile": "+886-988-336-291",
+    "fax": "",
+    "email": "MHShieh@airoha.com",
+    "address": "300 新竹科學園區篤行路6-5號5F",
+    "files": [
+      "20261109_071925487_iOS.heic",
+      "20261109_071929916_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "達發科技 Airoha (6526)",
+    "companyFolder": "達發科技_6526",
+    "name": "黃銘啟",
+    "enName": "Larry Huang",
+    "tier": 3,
+    "title": "財務 資深經理 (Senior Dept. Manager, Finance)",
+    "phone": "+886-3-612-8800 ext.18848",
+    "mobile": "",
+    "fax": "",
+    "email": "larry.huang@airoha.com",
+    "address": "300 新竹科學園區篤行路6-5號5F",
+    "files": [
+      "20261109_071842793_iOS.heic",
+      "20261109_071848603_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "聯發科技 MediaTek (2454)",
+    "companyFolder": "聯發科技_2454",
+    "name": "王巧潔",
+    "enName": "Jessie Wang",
+    "tier": 3,
+    "title": "財務本部 法人暨媒體關係處 投資人關係副處長 (IR Deputy Director)",
+    "phone": "+886-3-567-0766 #23447",
+    "mobile": "",
+    "fax": "",
+    "email": "jessie.wang@mediatek.com",
+    "address": "30078 新竹科學園區篤行一路1號",
+    "files": [
+      "20261109_071954138_iOS.heic",
+      "20261109_071959925_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "聯發科技 MediaTek (2454)",
+    "companyFolder": "聯發科技_2454",
+    "name": "李瑜芳",
+    "enName": "Amber Lee",
+    "tier": 4,
+    "title": "財務本部 法人暨媒體關係處 投資人關係資深管理師 (IR Senior Specialist)",
+    "phone": "+886-3-567-0766 #39647",
+    "mobile": "",
+    "fax": "",
+    "email": "amber.lee@mediatek.com",
+    "address": "30078 新竹科學園區篤行一路1號",
+    "files": [
+      "20261109_071940584_iOS.heic",
+      "20261109_071945881_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞昱半導體 Realtek (2379)",
+    "companyFolder": "瑞昱半導體_2379",
+    "name": "許鴻鈞",
+    "enName": "Jason Hsue",
+    "tier": 2,
+    "title": "通訊網路事業群 BU II 總監 (Chief Officer, CNBG BU II)",
+    "phone": "(03)578-0211 ext.15725",
+    "mobile": "",
+    "fax": "(03)577-6598",
+    "email": "jason.hsue@realtek.com",
+    "address": "30076 新竹科學園區創新二路2號",
+    "files": [
+      "20261109_072133340_iOS.heic",
+      "20261109_072140097_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞昱半導體 Realtek (2379)",
+    "companyFolder": "瑞昱半導體_2379",
+    "name": "陳慧珊",
+    "enName": "Ivy Chen",
+    "tier": 2,
+    "title": "執行長室／總經理室 法人關係部協理／代理發言人 (Deputy Spokesperson / IR Director)",
+    "phone": "(03)578-0211 ext.11316",
+    "mobile": "+886-972-694460",
+    "fax": "(03)578-9458",
+    "email": "ivychen81@realtek.com",
+    "address": "300092 新竹科學園區創新二路2號",
+    "files": [
+      "20261109_072120299_iOS.heic",
+      "20261109_072145326_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "瑞昱半導體 Realtek (2379)",
+    "companyFolder": "瑞昱半導體_2379",
+    "name": "傅雅馨",
+    "enName": "Amy Fu",
+    "tier": 5,
+    "title": "總經理室 法人關係部專員 (IR Specialist, President's Office)",
+    "phone": "(03)578-0211 ext.3519279",
+    "mobile": "",
+    "fax": "(03)578-9458",
+    "email": "amy_fu@realtek.com",
+    "address": "300092 新竹科學園區創新二路2號",
+    "files": [
+      "20261109_072041863_iOS.heic",
+      "20261109_072048757_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "奕力科技 ITH / ILI Technology (6962)",
+    "companyFolder": "奕力科技_ITH_6962",
+    "name": "梁公偉",
+    "enName": "Wayne Liang",
+    "tier": 1,
+    "title": "董事長 (Chairman, ILI Technology Corp.)",
+    "phone": "+886-3-5600099",
+    "mobile": "",
+    "fax": "+886-3-5600055",
+    "email": "wliang@ilitek.com",
+    "address": "302 新竹縣竹北市台元二街1號8~10F",
+    "files": [
+      "20261109_072257329_iOS.heic",
+      "20261109_072305850_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "奕力科技 ITH / ILI Technology (6962)",
+    "companyFolder": "奕力科技_ITH_6962",
+    "name": "陳聖心",
+    "enName": "Sandra Chen",
+    "tier": 1,
+    "title": "財務長 (Chief Finance Officer, ITH Corporation)",
+    "phone": "0965-516-962",
+    "mobile": "0965-516-962",
+    "fax": "",
+    "email": "IR@ITH.LTD",
+    "address": "302 新竹縣竹北市台元二街1號10樓之1",
+    "files": [
+      "20261109_072239362_iOS.heic",
+      "20261109_072243731_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "奕力科技 ITH / ILI Technology (6962)",
+    "companyFolder": "奕力科技_ITH_6962",
+    "name": "朱桐和",
+    "enName": "Andy Chu",
+    "tier": 2,
+    "title": "發言人 (Spokesperson, ITH Corporation)",
+    "phone": "0965-516-962",
+    "mobile": "0965-516-962",
+    "fax": "",
+    "email": "IR@ITH.LTD",
+    "address": "302 新竹縣竹北市台元二街1號10樓之1",
+    "files": [
+      "20261109_072222304_iOS.heic",
+      "20261109_072229150_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "奕力科技 ITH / ILI Technology (6962)",
+    "companyFolder": "奕力科技_ITH_6962",
+    "name": "鄭恩仁",
+    "enName": "Tom Cheng",
+    "tier": 2,
+    "title": "資深處長 (Sr. Director, ITH Corporation)",
+    "phone": "0965-516-962",
+    "mobile": "0965-516-962",
+    "fax": "",
+    "email": "IR@ITH.LTD",
+    "address": "302 新竹縣竹北市台元二街1號10樓之1",
+    "files": [
+      "20261109_072207844_iOS.heic",
+      "20261109_072213905_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "神盾股份有限公司 Egis Technology (6462)",
+    "companyFolder": "神盾_6462",
+    "name": "倪珮馨",
+    "enName": "Vanessa Ni",
+    "tier": 5,
+    "title": "投資人關係管理部 法人關係專員 (IR Specialist)",
+    "phone": "+886-2-2658-9768 ext.122",
+    "mobile": "",
+    "fax": "",
+    "email": "vanessa.ni@egistec.com",
+    "address": "",
+    "files": [
+      "20261109_072358421_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "義隆電子 ELAN Microelectronics (2458)",
+    "companyFolder": "義隆電子_2458",
+    "name": "葉儀晧",
+    "enName": "I. H. Yeh",
+    "tier": 1,
+    "title": "董事長兼總經理 (Chairman & President)",
+    "phone": "(03)5639977 ext.3000",
+    "mobile": "",
+    "fax": "(03)5670623",
+    "email": "ihyeh@emc.com.tw",
+    "address": "30076 新竹科學工業園區創新一路12號",
+    "files": [
+      "20261109_072438856_iOS.heic",
+      "20261109_072443758_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "義隆電子 ELAN Microelectronics (2458)",
+    "companyFolder": "義隆電子_2458",
+    "name": "劉代銘",
+    "enName": "Dennis Liu",
+    "tier": 2,
+    "title": "投資關係處 處長兼公司發言人 (Director, Investor Relation Div.)",
+    "phone": "(03)5639977 ext.6101",
+    "mobile": "",
+    "fax": "(03)5781623",
+    "email": "dennis_liu@emc.com.tw",
+    "address": "30076 新竹科學園區創新一路12號",
+    "files": [
+      "20261109_072409364_iOS.heic",
+      "20261109_072415129_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "義隆電子 ELAN Microelectronics (2458)",
+    "companyFolder": "義隆電子_2458",
+    "name": "蔡淑馨",
+    "enName": "Tsai Shu-Hsin",
+    "tier": 3,
+    "title": "投資關係處 副處長 (Deputy Director, Investor Relation Div.)",
+    "phone": "(03)5639977",
+    "mobile": "",
+    "fax": "(03)5781623",
+    "email": "elsa@emc.com.tw",
+    "address": "300092 新竹科學園區創新一路12號",
+    "files": [
+      "20261109_072424271_iOS.heic",
+      "20261109_072430139_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "聯詠科技 Novatek (3034)",
+    "companyFolder": "聯詠科技_3034",
+    "name": "曾省吾",
+    "enName": "Tony Tseng, CFA",
+    "tier": 2,
+    "title": "董事長暨總經理室 投資關係主管 (Director of IR, VIP Office)",
+    "phone": "(03)567-0889 ext.26588",
+    "mobile": "",
+    "fax": "(03)579-0394",
+    "email": "Tony_SW_Tseng@novatek.com.tw",
+    "address": "300 新竹科學工業園區創新一路1-2號",
+    "files": [
+      "20261109_072457560_iOS.heic",
+      "20261109_072503184_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "天鈺科技 Fitipower (4961)",
+    "companyFolder": "天鈺科技_4961",
+    "name": "陳志豪",
+    "enName": "James Chen",
+    "tier": 2,
+    "title": "財會處 投資關係部 處長暨發言人 (Director & Spokesman, IR Dept.)",
+    "phone": "+886(3)5788-618 ext.2609",
+    "mobile": "+886-919-07-4961",
+    "fax": "+886(3)5788-586",
+    "email": "jc.chen@fitipower.com",
+    "address": "300096 新竹科學園區篤行路6-8號3F",
+    "files": [
+      "20261109_072512526_iOS.heic",
+      "20261109_072517140_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "矽創電子 Sitronix (8016)",
+    "companyFolder": "矽創電子_8016",
+    "name": "周德雲",
+    "enName": "Jacky Chou",
+    "tier": 2,
+    "title": "策略投資 資深處長／董事長特助 (Senior Director, Strategic Investment)",
+    "phone": "02-2659-1276 ext.2206",
+    "mobile": "+886-922-443-880",
+    "fax": "02-2658-2977",
+    "email": "jacky_chou@sitronix.com.tw",
+    "address": "114 台北市內湖區瑞光路608號6樓",
+    "files": [
+      "20261109_072534870_iOS.heic",
+      "20261109_072539098_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "01",
+    "industry": "一、IC 設計業",
+    "industryFolder": "01_IC設計業",
+    "company": "矽創電子 Sitronix (8016)",
+    "companyFolder": "矽創電子_8016",
+    "name": "李洸慶",
+    "enName": "Steven Lee",
+    "tier": 4,
+    "title": "投資人關係暨永續辦公室 專案副理 (Deputy Project Manager, IR & ESG Office)",
+    "phone": "02-2659-1276 ext.2291",
+    "mobile": "0916-082-939",
+    "fax": "02-2658-2977",
+    "email": "steven_lee@sitronix.com.tw",
+    "address": "114 台北市內湖區瑞光路608號6樓",
+    "files": [
+      "20261109_072524120_iOS.heic",
+      "20261109_072529745_iOS.heic"
+    ]
+  }
+];
+  batch4Contacts.forEach(item => {
+    const exists = cardsData.some(c => c.companyFolder === item.companyFolder && c.name === item.name);
+    if (!exists) {
+      cardsData.push(item);
+    }
+  });
+
+  // Recalculate KPIs dynamically
+  const totalIndustries = typeof INDUSTRIES !== "undefined" ? INDUSTRIES.length : 9;
+  const totalCompanies = new Set(cardsData.map(c => c.industryFolder + "/" + c.companyFolder)).size;
+  const totalContacts = cardsData.length;
+  const totalPhotos = cardsData.reduce((acc, c) => acc + (c.files ? c.files.length : 0), 0);
+
+  const elInd = document.getElementById("kpiIndustries");
+  const elComp = document.getElementById("kpiCompanies");
+  const elCont = document.getElementById("kpiContacts");
+  const elPhot = document.getElementById("kpiPhotos");
+  if (elInd) elInd.textContent = String(totalIndustries);
+  if (elComp) elComp.textContent = String(totalCompanies);
+  if (elCont) elCont.textContent = String(totalContacts);
+  if (elPhot) elPhot.textContent = String(totalPhotos);
+
+  const sub = document.querySelector(".hero-subtitle");
+  if (sub) {
+    sub.innerHTML = `依「產業別 ▸ 公司別 ▸ 職階高低（Tier 1 決策層至 Tier 5 工程師／研究員）」結構化歸檔 · 涵蓋 ${totalIndustries} 大產業類別 · ${totalCompanies} 家企業與金融機構 · ${totalContacts} 位真實聯絡人（共 ${totalPhotos} 張名片照片）`;
+  }
+  const foot = document.querySelector(".footer-note");
+  if (foot) {
+    foot.textContent = `資料來源：OneDrive「名片集」資料夾（共 ${totalPhotos} 張 .heic 照片已全數歸檔至 01～09 產業別／${totalCompanies} 家公司子資料夾；00_待整理_新上傳名片 已清空）`;
+  }
+
+  if (typeof initFilters === "function") initFilters();
+  if (typeof renderDirectory === "function") renderDirectory();
+})();
