@@ -697,3 +697,750 @@
   if (typeof initFilters === "function") initFilters();
   if (typeof renderDirectory === "function") renderDirectory();
 })();
+
+
+
+// === Batch 5 Update (20261110_* : 69 .heic files, 18 companies [17 new], 35 net new contacts + 1 existing updated) ===
+(function applyBatch5() {
+  if (typeof cardsData === "undefined") return;
+  const extraTinaFiles = ["20261110_062209483_iOS.heic", "20261110_062216451_iOS.heic"];
+  const tina = cardsData.find(c => c.companyFolder === "華南永昌證券_HuaNan" && c.name === "袁美雯");
+  if (tina) {
+    extraTinaFiles.forEach(f => {
+      if (!tina.files.includes(f)) tina.files.push(f);
+    });
+  }
+
+  const batch5Contacts = [
+  {
+    "industryId": "02",
+    "industry": "二、半導體封裝測試業 (OSAT)",
+    "industryFolder": "02_半導體封裝測試業_OSAT",
+    "company": "瑞峰半導體 Raytek Semiconductor",
+    "companyFolder": "瑞峰半導體_Raytek",
+    "name": "陳文恭",
+    "enName": "Wen Gon Chen",
+    "tier": 2,
+    "title": "公司發言人／業務副總 (Spokesman / Sales V.P)",
+    "phone": "03-5971111 #10006",
+    "mobile": "",
+    "fax": "03-5971135",
+    "email": "wgchen@rayteksemi.com",
+    "address": "",
+    "files": [
+      "20261110_062313991_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "02",
+    "industry": "二、半導體封裝測試業 (OSAT)",
+    "industryFolder": "02_半導體封裝測試業_OSAT",
+    "company": "瑞峰半導體 Raytek Semiconductor",
+    "companyFolder": "瑞峰半導體_Raytek",
+    "name": "王建閔",
+    "enName": "Duke Wang",
+    "tier": 3,
+    "title": "財務會計部 副處長 (Deputy Director, Finance & Accounting Dept.)",
+    "phone": "03-5971111 #10525",
+    "mobile": "",
+    "fax": "03-5971135",
+    "email": "dukewang@rayteksemi.com",
+    "address": "",
+    "files": [
+      "20261110_062258380_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "02",
+    "industry": "二、半導體封裝測試業 (OSAT)",
+    "industryFolder": "02_半導體封裝測試業_OSAT",
+    "company": "瑞峰半導體 Raytek Semiconductor",
+    "companyFolder": "瑞峰半導體_Raytek",
+    "name": "劉恆銘",
+    "enName": "Tony Liu",
+    "tier": 3,
+    "title": "稽核室 專案經理 (Project Manager, Internal Audit Dept.)",
+    "phone": "03-5971111 #10703",
+    "mobile": "0936-226375",
+    "fax": "03-5971135",
+    "email": "tonyliu@rayteksemi.com",
+    "address": "",
+    "files": [
+      "20261110_062306851_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "野村投信 Nomura Asset Management",
+    "companyFolder": "野村投信_NomuraAM",
+    "name": "謝文雄",
+    "enName": "George Hsieh",
+    "tier": 2,
+    "title": "國內股票投資部 資深協理 (SAVP, Domestic Equity Dept.)",
+    "phone": "02-8101-5501 #768 / 專線 02-8758-1768",
+    "mobile": "",
+    "fax": "02-8101-5530",
+    "email": "george.hsieh@nomurafunds.com.tw",
+    "address": "110615 台北市信義路五段7號30樓 (台北101大樓)",
+    "files": [
+      "20261110_061528925_iOS.heic",
+      "20261110_061535962_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "野村投信 Nomura Asset Management",
+    "companyFolder": "野村投信_NomuraAM",
+    "name": "黃璿芳",
+    "enName": "Megan Huang",
+    "tier": 2,
+    "title": "機構法人部 業務資深協理 (Sales SAVP, Institution Client Business Dept.)",
+    "phone": "02-8101-5501 / 專線 02-8758-1524",
+    "mobile": "0960-136-373",
+    "fax": "02-8101-5538",
+    "email": "megan.huang@nomurafunds.com.tw",
+    "address": "110615 台北市信義路五段7號30樓 (台北101大樓)",
+    "files": [
+      "20261110_061544375_iOS.heic",
+      "20261110_061548682_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "野村投信 Nomura Asset Management",
+    "companyFolder": "野村投信_NomuraAM",
+    "name": "林哲毅",
+    "enName": "Chris Lin",
+    "tier": 4,
+    "title": "機構法人部 業務副理 (Sales Deputy Manager, Institution Client Business Dept.)",
+    "phone": "02-8101-5501 / 專線 02-8758-1527",
+    "mobile": "0912-809-595",
+    "fax": "02-8101-5538",
+    "email": "chris.lin@nomurafunds.com.tw",
+    "address": "110615 台北市信義路五段7號30樓 (台北101大樓)",
+    "files": [
+      "20261110_061511021_iOS.heic",
+      "20261110_061517193_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "安聯投信 Allianz Global Investors",
+    "companyFolder": "安聯投信_AllianzGI",
+    "name": "潘育憲",
+    "enName": "Benson Pan",
+    "tier": 2,
+    "title": "投資研究管理處 副總裁 (Vice President, Investment Management)",
+    "phone": "02-8770-9513",
+    "mobile": "",
+    "fax": "02-7720-7720",
+    "email": "benson.pan@allianzgi.com",
+    "address": "10476 台北市復興北路378號5樓",
+    "files": [
+      "20261110_061611784_iOS.heic",
+      "20261110_061616083_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "瀚亞投信 Eastspring Investments",
+    "companyFolder": "瀚亞投信_Eastspring",
+    "name": "林元平",
+    "enName": "Eric Lin, CFA",
+    "tier": 2,
+    "title": "海外股票暨固定收益部 資深副總經理 (Head of Overseas Equity / Fixed Income)",
+    "phone": "02-8758-6688 #1700 / 專線 02-7736-1700",
+    "mobile": "",
+    "fax": "02-8780-8138",
+    "email": "eric.yp.lin@eastspring.com",
+    "address": "110411 台北市松智路1號4樓",
+    "files": [
+      "20261110_061624376_iOS.heic",
+      "20261110_061629608_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "國泰投信 Cathay Securities Investment Trust",
+    "companyFolder": "國泰投信_CathaySITE",
+    "name": "陳柏因",
+    "enName": "Paul Chen",
+    "tier": 4,
+    "title": "國內股票投資部 研究分析副理 (Manager, Taiwan Equity Fund Dept.)",
+    "phone": "02-2700-8399 #3621",
+    "mobile": "",
+    "fax": "02-2707-5330",
+    "email": "Paul.Chen@cathaysite.com.tw",
+    "address": "10681 台北市大安區敦化南路二段39號6樓",
+    "files": [
+      "20261110_061729855_iOS.heic",
+      "20261110_061733848_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "滙豐中華投信 HSBC Global Asset Management",
+    "companyFolder": "滙豐中華投信_HSBCAM",
+    "name": "余逸玫",
+    "enName": "Carol Yu",
+    "tier": 2,
+    "title": "投資管理部 副總經理 (Vice President, Investment Management)",
+    "phone": "02-6633-5808 #35265 / 專線 02-6633-5265",
+    "mobile": "",
+    "fax": "02-6607-3358",
+    "email": "carol.yu@hsbc.com.tw",
+    "address": "10682 台北市大安區敦化南路2段99號24樓",
+    "files": [
+      "20261110_062003850_iOS.heic",
+      "20261110_062008513_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "台新投顧 Taishin Investment Advisory",
+    "companyFolder": "台新投顧_TaishinIA",
+    "name": "李明杰",
+    "enName": "Bright Lee",
+    "tier": 3,
+    "title": "產經策略研究部電子研究組 研究經理 (Manager, Research Dept.)",
+    "phone": "02-5589-9558 #1851 / 專線 02-5576-1851",
+    "mobile": "",
+    "fax": "02-3707-6769",
+    "email": "s1030013@tss-c.com.tw",
+    "address": "10687 台北市仁愛路四段118號18F",
+    "files": [
+      "20261110_062046951_iOS.heic",
+      "20261110_062052770_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "台新投顧 Taishin Investment Advisory",
+    "companyFolder": "台新投顧_TaishinIA",
+    "name": "趙御雲",
+    "enName": "Wayne Chao",
+    "tier": 4,
+    "title": "產經策略研究部電子研究組 研究襄理 (Project Associate Manager, Research Dept.)",
+    "phone": "02-5589-9558 #1851 / 專線 02-5576-1851",
+    "mobile": "",
+    "fax": "02-3707-6769",
+    "email": "s1090005@tss-c.com.tw",
+    "address": "10687 台北市仁愛路四段118號18F",
+    "files": [
+      "20261110_062015353_iOS.heic",
+      "20261110_062019214_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "06",
+    "industry": "六、金融機構 (Buy-Side 投信/壽險/投顧)",
+    "industryFolder": "06_金融機構_BuySide_投信壽險投顧",
+    "company": "中國信託投顧 CTBC Securities Investment Service",
+    "companyFolder": "中國信託投顧_CTBCSIS",
+    "name": "洪士勛",
+    "enName": "Chris Hong",
+    "tier": 5,
+    "title": "投資研究部 研究員 (Analyst, Investment Research Dept.)",
+    "phone": "02-5569-1988 #1968 / 專線 02-5569-1968",
+    "mobile": "0966-165651",
+    "fax": "02-5569-1966",
+    "email": "chris.hong@ctbcsis.com",
+    "address": "11568 臺北市南港區經貿二路188號5樓",
+    "files": [
+      "20261110_062246588_iOS.heic",
+      "20261110_062251196_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "野村國際證券 Nomura International",
+    "companyFolder": "野村證券_Nomura",
+    "name": "李佳伶",
+    "enName": "Anne Lee, CFA",
+    "tier": 2,
+    "title": "證券研究部 執行董事 (Executive Director, Equity Research, Taiwan)",
+    "phone": "02-2176-9999 #69966 / 專線 02-2176-9966",
+    "mobile": "",
+    "fax": "02-2176-9960",
+    "email": "anne.lee@nomura.com",
+    "address": "11047 台北市松智路1號17樓",
+    "files": [
+      "20261110_061459196_iOS.heic",
+      "20261110_061503799_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "野村國際證券 Nomura International",
+    "companyFolder": "野村證券_Nomura",
+    "name": "顏維君",
+    "enName": "Gillian Yen",
+    "tier": 5,
+    "title": "證券研究部 (Equity Research, Taiwan, Global Markets)",
+    "phone": "02-2176-9999 #69963 / 專線 02-2176-9963",
+    "mobile": "",
+    "fax": "02-2176-9960",
+    "email": "gillian.yen@nomura.com",
+    "address": "11047 台北市松智路1號17樓",
+    "files": [
+      "20261110_061445919_iOS.heic",
+      "20261110_061451702_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "康和綜合證券 Concord Securities (6016)",
+    "companyFolder": "康和證券_6016",
+    "name": "石嘉琳",
+    "enName": "Brinda Shih",
+    "tier": 3,
+    "title": "法人部 業務經理 (Sales Manager, Institutional Dept.)",
+    "phone": "02-8787-1888 #251 / 專線 02-2768-3883",
+    "mobile": "0922-247-601",
+    "fax": "02-2768-1511",
+    "email": "brinda.shih@concords.com.tw",
+    "address": "110 台北市信義區基隆路一段176號B1",
+    "files": [
+      "20261110_061559194_iOS.heic",
+      "20261110_061603688_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "國泰綜合證券 Cathay Securities",
+    "companyFolder": "國泰證券_CathaySec",
+    "name": "林聖斌",
+    "enName": "Bain Lin",
+    "tier": 2,
+    "title": "資本市場處 資深副總經理 (Senior EVP, Capital Market)",
+    "phone": "02-2326-9850",
+    "mobile": "",
+    "fax": "02-7711-9802",
+    "email": "bain.lin@cathaysec.com.tw",
+    "address": "10669 台北市敦化南路二段333號20樓",
+    "files": [
+      "20261110_061639021_iOS.heic",
+      "20261110_061643876_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "國泰綜合證券 Cathay Securities",
+    "companyFolder": "國泰證券_CathaySec",
+    "name": "王姵今",
+    "enName": "Peggy Wang",
+    "tier": 2,
+    "title": "法人業務二處 國外法人業務部 業務協理 (Sales VP, Foreign Institutional Sales)",
+    "phone": "02-2326-9882",
+    "mobile": "0922-338-588",
+    "fax": "",
+    "email": "peggywang@cathaysec.com.tw",
+    "address": "10669 台北市敦化南路二段335號19樓",
+    "files": [
+      "20261110_061740749_iOS.heic",
+      "20261110_061744521_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "國泰綜合證券 Cathay Securities",
+    "companyFolder": "國泰證券_CathaySec",
+    "name": "陳彥彣",
+    "enName": "Vanessa Chen",
+    "tier": 5,
+    "title": "法人業務一處 國內法人業務部 中級專員 (Specialist, Domestic Institutional Sales)",
+    "phone": "02-7710-1787",
+    "mobile": "0988-167-367",
+    "fax": "02-2737-2188",
+    "email": "vani.chen@cathaysec.com.tw",
+    "address": "10669 台北市敦化南路二段335號19樓",
+    "files": [
+      "20261110_061752367_iOS.heic",
+      "20261110_061756543_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "國泰期貨 Cathay Futures",
+    "companyFolder": "國泰期貨_CathayFutures",
+    "name": "張晏榮",
+    "enName": "Yen-Jung Chang",
+    "tier": 5,
+    "title": "研究部 研究員 (Analyst, Research Department)",
+    "phone": "02-7712-3866",
+    "mobile": "",
+    "fax": "02-2733-2198",
+    "email": "yenjung@cathayfut.com.tw",
+    "address": "10669 台北市敦化南路二段335號10樓",
+    "files": [
+      "20261110_061659216_iOS.heic",
+      "20261110_061704680_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "國泰期貨 Cathay Futures",
+    "companyFolder": "國泰期貨_CathayFutures",
+    "name": "劉醇翊",
+    "enName": "Eric Liu",
+    "tier": 5,
+    "title": "研究部 研究員 (Analyst, Research Department)",
+    "phone": "02-7710-1725",
+    "mobile": "",
+    "fax": "02-2733-2198",
+    "email": "ericliu@cathayfut.com.tw",
+    "address": "10669 台北市敦化南路二段335號10樓",
+    "files": [
+      "20261110_061716254_iOS.heic",
+      "20261110_061722027_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "群益金鼎證券 Capital Securities (6005)",
+    "companyFolder": "群益金鼎證券_6005",
+    "name": "林靜華",
+    "enName": "Amy Lin",
+    "tier": 1,
+    "title": "上海代表處 首席代表 (Chief Representative, Shanghai Rep. Office)",
+    "phone": "021-5888-7188 #1811 / 專線 021-5840-0528",
+    "mobile": "",
+    "fax": "021-5888-2929",
+    "email": "amy_lin@capital.com.tw",
+    "address": "上海市浦東南路360號新上海國際大廈18樓 (200120)",
+    "files": [
+      "20261110_061805713_iOS.heic",
+      "20261110_061810873_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "群益金鼎證券 Capital Securities (6005)",
+    "companyFolder": "群益金鼎證券_6005",
+    "name": "侯素英",
+    "enName": "Stella Hou",
+    "tier": 2,
+    "title": "經紀部國內法人處 業務協理 (Senior Manager, Brokerage Dept.)",
+    "phone": "02-8780-8888 #389",
+    "mobile": "",
+    "fax": "02-8788-3730",
+    "email": "stella.hou@capital.com.tw",
+    "address": "11073 台北市松仁路101號4樓群益金融大樓",
+    "files": [
+      "20261110_061819680_iOS.heic",
+      "20261110_061824706_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "日盛證券 JihSun Securities",
+    "companyFolder": "日盛證券_JihSun",
+    "name": "張璟璘",
+    "enName": "Teresa",
+    "tier": 2,
+    "title": "經紀事業處 國內法人部 業務協理 (Sales AVP, Domestic Institutional Dept.)",
+    "phone": "02-2504-8888 #2113 / 專線 02-2507-9548",
+    "mobile": "0918-531-061",
+    "fax": "02-2504-2034",
+    "email": "920153@jsun.com",
+    "address": "104 台北市中山區南京東路二段111號8樓",
+    "files": [
+      "20261110_061832829_iOS.heic",
+      "20261110_061837579_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "瑞士信貸證券 Credit Suisse",
+    "companyFolder": "瑞士信貸證券_CreditSuisse",
+    "name": "蔡麗卿",
+    "enName": "Annie Tsai",
+    "tier": 2,
+    "title": "證券營業 董事 (Director, Equity, Asian Equities Sales)",
+    "phone": "02-2715-6388 / 專線 02-2715-6332",
+    "mobile": "",
+    "fax": "02-2545-8637",
+    "email": "annie.tsai@credit-suisse.com",
+    "address": "105 台北市民生東路三段109號聯邦企業大樓六樓",
+    "files": [
+      "20261110_061849941_iOS.heic",
+      "20261110_061854895_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "滙豐證券／滙豐環球研究 HSBC Securities",
+    "companyFolder": "滙豐證券_HSBC",
+    "name": "王姵今",
+    "enName": "Peggy Wang",
+    "tier": 2,
+    "title": "證券業務部 副總經理 (Vice President, Taiwan Equity Sales)",
+    "phone": "02-6631-2899 / 專線 02-6610-1838",
+    "mobile": "",
+    "fax": "02-6603-3777",
+    "email": "peggywang@hsbc.com.tw",
+    "address": "110 台北市基隆路一段333號國際貿易大樓13樓",
+    "files": [
+      "20261110_061914605_iOS.heic",
+      "20261110_061918660_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "滙豐證券／滙豐環球研究 HSBC Securities",
+    "companyFolder": "滙豐證券_HSBC",
+    "name": "林俞安",
+    "enName": "Lya Lin",
+    "tier": 2,
+    "title": "證券業務部 副總經理 (Vice President, Taiwan Equity Sales)",
+    "phone": "02-6631-2899 / 專線 02-6610-1889",
+    "mobile": "",
+    "fax": "02-6603-3777",
+    "email": "lya.y.a.lin@hsbc.com.tw",
+    "address": "110 台北市基隆路一段333號國際貿易大樓13樓",
+    "files": [
+      "20261110_061939802_iOS.heic",
+      "20261110_061944754_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "滙豐證券／滙豐環球研究 HSBC Securities",
+    "companyFolder": "滙豐證券_HSBC",
+    "name": "鄭德榮",
+    "enName": "Darryl Cheng",
+    "tier": 2,
+    "title": "環球研究 亞太區科技研究部門 資深副總裁 (Analyst, Asian Tech Research)",
+    "phone": "02-6631-2864",
+    "mobile": "0987-568-170",
+    "fax": "02-6603-3780",
+    "email": "darryl.tj.cheng@hsbc.com.tw",
+    "address": "110 台北市基隆路一段333號國際貿易大樓13樓",
+    "files": [
+      "20261110_061951848_iOS.heic",
+      "20261110_061956342_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "滙豐證券／滙豐環球研究 HSBC Securities",
+    "companyFolder": "滙豐證券_HSBC",
+    "name": "方晨",
+    "enName": "Helen Fang",
+    "tier": 2,
+    "title": "環球研究 聯席總監／工業業務亞太區研究分析師 (Associate Director, Industrial Research)",
+    "phone": "+852-2996-6942",
+    "mobile": "+852-6757-3759 / +86-130-5215-0210",
+    "fax": "+852-2596-0200",
+    "email": "helen.c.fang@hsbc.com.hk",
+    "address": "香港皇后大道中1號滙豐總行大廈19樓",
+    "files": [
+      "20261110_061926440_iOS.heic",
+      "20261110_061931554_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "滙豐證券／滙豐環球研究 HSBC Securities",
+    "companyFolder": "滙豐證券_HSBC",
+    "name": "林修德",
+    "enName": "Ted Lin",
+    "tier": 5,
+    "title": "環球研究 證券分析師 (Research Analyst, Global Research)",
+    "phone": "02-6631-2870",
+    "mobile": "0917-256-737",
+    "fax": "",
+    "email": "ted.ht.lin@hsbc.com.tw",
+    "address": "110615 台北市信義區信義路五段7號54樓",
+    "files": [
+      "20261110_061902705_iOS.heic",
+      "20261110_061906529_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "台新綜合證券 Taishin Securities",
+    "companyFolder": "台新證券_TaishinSec",
+    "name": "林延昆",
+    "enName": "Yenkeum Lin",
+    "tier": 2,
+    "title": "法人組 業務協理 (AVP, Institutional Sales Dept.)",
+    "phone": "02-2181-5888 #8912 / 專線 02-5576-8912",
+    "mobile": "0955-507-505",
+    "fax": "02-2541-2000",
+    "email": "yenkeum.lin@tssco.com.tw",
+    "address": "10448 台北市中山北路二段44號2樓",
+    "files": [
+      "20261110_062102301_iOS.heic",
+      "20261110_062109702_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "台新綜合證券 Taishin Securities",
+    "companyFolder": "台新證券_TaishinSec",
+    "name": "周芸秀",
+    "enName": "Cheryl Zhou",
+    "tier": 3,
+    "title": "國際暨機構事業處/國內法人組 業務經理 (Sales Manager, Institutional Sales)",
+    "phone": "02-2181-5888 #8006 / 專線 02-5576-8006",
+    "mobile": "",
+    "fax": "02-2541-2000",
+    "email": "cheryl@tssco.com.tw",
+    "address": "104016 台北市中山北路二段44號2樓",
+    "files": [
+      "20261110_062118263_iOS.heic",
+      "20261110_062123663_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "台新綜合證券 Taishin Securities",
+    "companyFolder": "台新證券_TaishinSec",
+    "name": "余靜妮",
+    "enName": "Gennie Yu",
+    "tier": 3,
+    "title": "法人組 業務經理 (Junior Manager, Institutional Sales Dept.)",
+    "phone": "02-2181-5888 #8962 / 專線 02-2511-9936",
+    "mobile": "0921-535-978",
+    "fax": "02-2541-2000",
+    "email": "gennie.yu@tssco.com.tw",
+    "address": "10448 台北市中山北路二段44號2樓",
+    "files": [
+      "20261110_062029805_iOS.heic",
+      "20261110_062035736_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "華南永昌證券 Hua Nan Securities",
+    "companyFolder": "華南永昌證券_HuaNan",
+    "name": "陳麗蓮",
+    "enName": "Lilian Chen",
+    "tier": 2,
+    "title": "國內法人部 業務協理 (Sales AVP, Institutional Sales Dept.)",
+    "phone": "02-2545-6888 #8258 / 專線 02-2712-1601",
+    "mobile": "0920-418-938",
+    "fax": "02-2545-3271",
+    "email": "10019@entrust.com.tw",
+    "address": "105 台北市民生東路四段54號4樓",
+    "files": [
+      "20261110_062225811_iOS.heic",
+      "20261110_062234445_iOS.heic"
+    ]
+  },
+  {
+    "industryId": "07",
+    "industry": "七、金融機構 (Sell-Side 證券/投行/銀行/資融)",
+    "industryFolder": "07_金融機構_SellSide_證券投行銀行資融",
+    "company": "華南永昌證券 Hua Nan Securities",
+    "companyFolder": "華南永昌證券_HuaNan",
+    "name": "黃若瑋",
+    "enName": "Ona Huang",
+    "tier": 4,
+    "title": "國內法人部 業務襄理 (Institutional Sales Dept.)",
+    "phone": "02-2545-6888 #8968 / 專線 02-2545-0153",
+    "mobile": "0963-339-905",
+    "fax": "02-2545-3271",
+    "email": "10015@entrust.com.tw",
+    "address": "105 台北市民生東路四段54號4樓",
+    "files": [
+      "20261110_062149921_iOS.heic",
+      "20261110_062203089_iOS.heic"
+    ]
+  }
+];
+  batch5Contacts.forEach(item => {
+    const exists = cardsData.some(c => c.companyFolder === item.companyFolder && c.name === item.name && c.email === item.email);
+    if (!exists) {
+      cardsData.push(item);
+    }
+  });
+
+  // Recalculate KPIs dynamically
+  const totalIndustries = typeof INDUSTRIES !== "undefined" ? INDUSTRIES.length : 9;
+  const totalCompanies = new Set(cardsData.map(c => c.industryFolder + "/" + c.companyFolder)).size;
+  const totalContacts = cardsData.length;
+  const totalPhotos = cardsData.reduce((acc, c) => acc + (c.files ? c.files.length : 0), 0);
+
+  const elInd = document.getElementById("kpiIndustries");
+  const elComp = document.getElementById("kpiCompanies");
+  const elCont = document.getElementById("kpiContacts");
+  const elPhot = document.getElementById("kpiPhotos");
+  if (elInd) elInd.textContent = String(totalIndustries);
+  if (elComp) elComp.textContent = String(totalCompanies);
+  if (elCont) elCont.textContent = String(totalContacts);
+  if (elPhot) elPhot.textContent = String(totalPhotos);
+
+  const sub = document.querySelector(".hero-subtitle");
+  if (sub) {
+    sub.innerHTML = `依「產業別 ▸ 公司別 ▸ 職階高低（Tier 1 決策層至 Tier 5 工程師／研究員）」結構化歸檔 · 涵蓋 ${totalIndustries} 大產業類別 · ${totalCompanies} 家企業與金融機構 · ${totalContacts} 位真實聯絡人（共 ${totalPhotos} 張名片照片）`;
+  }
+  const foot = document.querySelector(".footer-note");
+  if (foot) {
+    foot.textContent = `資料來源：OneDrive「名片集」資料夾（共 ${totalPhotos} 張 .heic 照片已全數歸檔至 01～09 產業別／${totalCompanies} 家公司子資料夾；00_待整理_新上傳名片 已清空）`;
+  }
+
+  if (typeof initFilters === "function") initFilters();
+  if (typeof renderDirectory === "function") renderDirectory();
+})();
